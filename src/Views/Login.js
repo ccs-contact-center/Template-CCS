@@ -44,7 +44,6 @@ class Login extends Component {
     e.preventDefault();
 
     var res = await this.API_CCS.getOnlineStatus(this.state.username);
-    console.log(res.logged);
 
     if (res.logged === false) {
       this.Auth.login(this.state.username, md5(this.state.password))
