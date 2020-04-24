@@ -5,5 +5,5 @@ const URL = "https://socket.ccscontactcenter.com";
 
 export var socket = socketIOClient(URL, {
   transports: ["websocket"],
+  "sync disconnect on unload": true,
 });
-
