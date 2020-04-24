@@ -49,10 +49,14 @@ socket.on("msgNotification", (data) => {
 socket.on("connect", () => {
   var user = Auth.getProfile();
 
-  socket.broadcast.emit("browserRefresh", {
+  socket.emit("browserRefresh", {
     sid: socket.id,
     username: user.id_ccs,
   });
+});
+
+socket.on("disconnect", () => {
+  console.log(socket.id);
 });
 
 class DefaultLayout extends Component {
