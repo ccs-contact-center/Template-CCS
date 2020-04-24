@@ -40,15 +40,15 @@ export default class AuthService {
   }
 
   setToken(idToken) {
-    localStorage.setItem("id_token", idToken);
+    sessionStorage.setItem("id_token", idToken);
   }
 
   getToken() {
-    return localStorage.getItem("id_token");
+    return sessionStorage.getItem("id_token");
   }
 
   logout() {
-    localStorage.removeItem("id_token");
+    sessionStorage.removeItem("id_token");
   }
 
   getProfile() {

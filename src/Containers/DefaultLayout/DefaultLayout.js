@@ -49,7 +49,7 @@ socket.on("msgNotification", (data) => {
 socket.on("connect", () => {
   var user = Auth.getProfile();
 
-  socket.emit("browserRefresh", {
+  socket.broadcast.emit("browserRefresh", {
     sid: socket.id,
     username: user.id_ccs,
   });
