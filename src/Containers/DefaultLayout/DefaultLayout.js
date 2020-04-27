@@ -53,11 +53,13 @@ socket.on("connect", () => {
     sid: socket.id,
     username: user.id_ccs,
   });
+
+
+  socket.on("disconnect",()=>{
+    socket.close()
+  })
 });
 
-socket.on("disconnect", () => {
-  console.log(socket.id);
-});
 
 class DefaultLayout extends Component {
   loading = () => (
