@@ -11,7 +11,7 @@ export default {
       icon: 'icon-home',
       children: [
         {
-          name: 'Vacio',
+          name: 'Posts',
           url: '/Dashboard',
           icon: 'icon-puzzle',
         },],
