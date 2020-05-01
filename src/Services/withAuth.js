@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import AuthService from "../Services/AuthService";
+import { socket } from "../Services/Socket";
+
+const AuthProfile = new AuthService();
+const user = AuthProfile.getProfile();
 
 export default function withAuth(AuthComponent) {
-  const Auth = new AuthService("https://api.ccscontactcenter.com");
+  const Auth = new AuthService();
   return class AuthWrapped extends Component {
     constructor() {
       super();
@@ -13,6 +17,9 @@ export default function withAuth(AuthComponent) {
 
     componentDidMount() {
       if (!Auth.loggedIn()) {
+        socket.emit("logoutUser", {
+          username: user.id_ccs,
+        });
         this.props.history.replace("/Login");
       } else {
         try {
@@ -21,6 +28,9 @@ export default function withAuth(AuthComponent) {
             user: profile,
           });
         } catch (err) {
+          socket.emit("logoutUser", {
+            username: user.id_ccs,
+          });
           Auth.logout();
           this.props.history.replace("/Login");
         }

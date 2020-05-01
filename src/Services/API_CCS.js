@@ -19,7 +19,7 @@ export default class API_CCS {
     if (await this.Auth.loggedIn()) {
       headers["Authorization"] = "Bearer " + (await this.Auth.getToken());
     } else {
-      window.location.href = "/login";
+      window.location.href = "/Login";
     }
 
     return fetch(url, {
