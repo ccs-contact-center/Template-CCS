@@ -47,6 +47,8 @@ socket.on("msgNotification", (data) => {
     },
   });
 });
+
+
 socket.on("connect", () => {
   var user = Auth.getProfile();
 
@@ -114,7 +116,7 @@ class DefaultLayout extends Component {
                       />
                     ) : null;
                   })}
-                  <Redirect from="/" to="/inicio" />
+                  <Redirect from="/" to="/Login" />
                 </Switch>
               </Suspense>
             </Container>

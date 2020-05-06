@@ -52,7 +52,12 @@ export default class AuthService {
   }
 
   getProfile() {
-    return decode(this.getToken());
+    try {
+      return decode(this.getToken());
+    } catch (err) {
+      console.log("No loggeado (AuthService:58) " + err);
+      return false;
+    }
   }
 
   fetch(url, options) {

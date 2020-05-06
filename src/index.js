@@ -25,4 +25,4 @@ ReactDOM.render(
 );
 
 //Unregister para desactivar PWA
-serviceWorker.register();
+serviceWorker.unregister();
