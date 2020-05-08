@@ -17,16 +17,20 @@ export default function withAuth(AuthComponent) {
 
     componentDidMount() {
       if (!Auth.loggedIn()) {
-        var d = new Date();
-        var login = {
-          type: "logout",
-          data: {
-            username: user.id_ccs,
-            date: d,
-          },
-        };
-        ws.send(JSON.stringify(login));
-        this.props.history.replace("/Login");
+        try {
+          var d = new Date();
+          var login = {
+            type: "logout",
+            data: {
+              username: user.id_ccs,
+              date: d,
+            },
+          };
+          ws.send(JSON.stringify(login));
+          this.props.history.replace("/Login");
+        } catch (e) {
+          this.props.history.replace("/Login");
+        }
       } else {
         try {
           const profile = Auth.getProfile();
