@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import logo from "../Assets/img/brand/logo.png";
 import withAuth from "../Services/withAuth";
 
+
 class Inicio extends Component {
   loading = () => (
     <div className="animated fadeIn pt-1 text-center">Cargando...</div>

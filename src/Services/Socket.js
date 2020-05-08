@@ -1,8 +1,4 @@
-import socketIOClient from "socket.io-client";
+const URL = "wss://socket.ccscontactcenter.com";
+//const URL = "ws://localhost:8082";
 
-const URL = "https://socket.ccscontactcenter.com";
-//const URL = "http://localhost:8082";
-
-export var socket = socketIOClient(URL, {
-  transports: ["websocket"],
-});
+export var ws = new WebSocket(URL);

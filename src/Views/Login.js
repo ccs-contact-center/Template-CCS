@@ -18,13 +18,13 @@ import md5 from "md5";
 import AuthService from "../Services/AuthService";
 import API_CCS from "../Services/API_CCS";
 import splash from "../Assets/img/brand/splash.png";
-
+import { ws } from "../Services/Socket";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import { socket } from "../Services/Socket";
-
 const MySwal = withReactContent(Swal);
+
+ws.addEventListener("open", function (event) {});
 
 class Login extends Component {
   constructor(props) {
@@ -43,9 +43,9 @@ class Login extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
 
-    var res = await this.API_CCS.getOnlineStatus(this.state.username);
-
-    if (res.logged === false) {
+    //var res = await this.API_CCS.getOnlineStatus(this.state.username);
+    var res = false;
+    if (res === false) {
       this.Auth.login(this.state.username, md5(this.state.password))
 
         .then((res) => {
@@ -108,9 +108,15 @@ class Login extends Component {
   };
 
   setUsername() {
-    socket.emit("loginUser", {
-      username: this.state.username,
-    });
+    var d = new Date();
+    var login = {
+      type: "login",
+      data: {
+        username: this.state.username,
+        date: d,
+      },
+    };
+    ws.send(JSON.stringify(login));
   }
 
   render() {

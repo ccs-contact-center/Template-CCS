@@ -2,7 +2,6 @@ import React, { Component, Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
 import { Container } from "reactstrap";
-
 import {
   AppAside,
   AppFooter,
@@ -19,50 +18,14 @@ import {
 import navigation from "../../_nav";
 // routes config
 import routes from "../../routes";
-
 import AuthService from "../../Services/AuthService";
-
 import { store as notiStore } from "react-notifications-component";
+import { ws } from "../../Services/Socket";
 
-import { socket } from "../../Services/Socket";
 const Auth = new AuthService();
-
-
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
-
-socket.on("msgNotification", (data) => {
-  notiStore.addNotification({
-    title: "Nuevo Mensaje",
-    message: data.body,
-    type: data.type,
-    insert: "bottom",
-    container: "bottom-right",
-    animationIn: ["animated", "fadeIn"],
-    animationOut: ["animated", "fadeOut"],
-    dismiss: {
-      duration: 5000,
-      onScreen: true,
-    },
-  });
-});
-
-
-socket.on("connect", () => {
-  var user = Auth.getProfile();
-
-  socket.emit("browserRefresh", {
-    sid: socket.id,
-    username: user.id_ccs,
-  });
-
-
-  socket.on("disconnect",()=>{
-    socket.close()
-  })
-});
-
 
 class DefaultLayout extends Component {
   loading = () => (
@@ -71,11 +34,59 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     var user = Auth.getProfile();
-    socket.emit("logoutUser", {
-      username: user.id_ccs,
-    });
+    var d = new Date();
+    var login = {
+      type: "logout",
+      data: {
+        username: user.id_ccs,
+        date: d,
+      },
+    };
+    ws.send(JSON.stringify(login));
     Auth.logout();
     this.props.history.replace("/Login");
+  }
+
+  componentDidMount() {
+    ws.onmessage = (event) => {
+      var data = JSON.parse(event.data);
+
+      switch (data.type) {
+        case "selfLogin":
+          notiStore.addNotification({
+            title: "Nuevo Mensaje",
+            message: data.data.body,
+            type: "success",
+            insert: "bottom",
+            container: "bottom-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+          });
+          break;
+        case "login":
+          notiStore.addNotification({
+            title: "Nuevo Mensaje",
+            message: data.data.body,
+            type: "info",
+            insert: "bottom",
+            container: "bottom-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+          });
+          break;
+
+        default:
+          break;
+      }
+    };
   }
 
   render() {
@@ -116,7 +127,7 @@ class DefaultLayout extends Component {
                       />
                     ) : null;
                   })}
-                  <Redirect from="/" to="/Login" />
+                  <Redirect from="/" to="/Inicio" />
                 </Switch>
               </Suspense>
             </Container>

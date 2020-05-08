@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AuthService from "../Services/AuthService";
-import { socket } from "../Services/Socket";
+import { ws } from "../Services/Socket";
 
 const AuthProfile = new AuthService();
 const user = AuthProfile.getProfile();
@@ -17,9 +17,15 @@ export default function withAuth(AuthComponent) {
 
     componentDidMount() {
       if (!Auth.loggedIn()) {
-        socket.emit("logoutUser", {
-          username: user.id_ccs,
-        });
+        var d = new Date();
+        var login = {
+          type: "logout",
+          data: {
+            username: user.id_ccs,
+            date: d,
+          },
+        };
+        ws.send(JSON.stringify(login));
         this.props.history.replace("/Login");
       } else {
         try {
@@ -28,9 +34,7 @@ export default function withAuth(AuthComponent) {
             user: profile,
           });
         } catch (err) {
-          socket.emit("logoutUser", {
-            username: user.id_ccs,
-          });
+          ws.send(JSON.stringify(login));
           Auth.logout();
           this.props.history.replace("/Login");
         }
