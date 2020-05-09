@@ -24,7 +24,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 
-ws.addEventListener("open", function (event) {});
+//ws.addEventListener("open", function (event) {});
 
 class Login extends Component {
   constructor(props) {
