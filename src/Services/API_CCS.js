@@ -1,8 +1,9 @@
 import AuthService from "./AuthService";
 
 const hostURL = "https://api.ccscontactcenter.com";
-const socketURL = "https://socket.ccscontactcenter.com";
 //const hostURL = 'http://localhost:3020'
+const socketURL = "https://socket.ccscontactcenter.com";
+//const socketURL = "http://localhost:8082";
 
 export default class API_CCS {
   constructor() {

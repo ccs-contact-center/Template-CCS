@@ -43,9 +43,9 @@ class Login extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
 
-    //var res = await this.API_CCS.getOnlineStatus(this.state.username);
-    var res = false;
-    if (res === false) {
+    var res = await this.API_CCS.getOnlineStatus(this.state.username);
+    console.log(res);
+    if (res.logged === false) {
       this.Auth.login(this.state.username, md5(this.state.password))
 
         .then((res) => {
