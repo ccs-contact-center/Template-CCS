@@ -46,6 +46,11 @@ class DefaultLayout extends Component {
     <div className="animated fadeIn pt-1 text-center">Loading...</div>
   );
 
+  // eslint-disable-next-line
+  t = setInterval(() => {
+    Auth.loggedIn() ? console.log(true) : this.signOut(this.e);
+  }, 60000);
+
   signOut(e) {
     var user = Auth.getProfile();
     var d = new Date();
@@ -56,6 +61,7 @@ class DefaultLayout extends Component {
         date: d,
       },
     };
+    clearInterval(this.t);
     ws.send(JSON.stringify(login));
     Auth.logout();
     this.props.history.replace("/Login");
@@ -95,6 +101,9 @@ class DefaultLayout extends Component {
               onScreen: true,
             },
           });
+          break;
+        case "forceLogout":
+          this.signOut(this.e);
           break;
 
         default:
