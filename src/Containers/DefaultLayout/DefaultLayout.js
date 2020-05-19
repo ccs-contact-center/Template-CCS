@@ -22,6 +22,12 @@ import AuthService from "../../Services/AuthService";
 import { store as notiStore } from "react-notifications-component";
 import { ws } from "../../Services/Socket";
 
+import { connect } from "react-redux";
+import {
+  fetchDeleteUser,
+  fetchSetUser,
+} from "../../Redux/Reducers/userReducer";
+
 const Auth = new AuthService();
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
@@ -46,9 +52,11 @@ class DefaultLayout extends Component {
     <div className="animated fadeIn pt-1 text-center">Loading...</div>
   );
 
+  doNothing() {}
+
   // eslint-disable-next-line
   t = setInterval(() => {
-    Auth.loggedIn() ? console.log(true) : this.signOut(this.e);
+    Auth.loggedIn() ? this.doNothing() : this.signOut(this.e);
   }, 60000);
 
   signOut(e) {
@@ -64,6 +72,7 @@ class DefaultLayout extends Component {
     clearInterval(this.t);
     ws.send(JSON.stringify(login));
     Auth.logout();
+    this.props.fetchDeleteUser();
     this.props.history.replace("/Login");
   }
 
@@ -171,4 +180,13 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+export default connect(
+  (state) => ({
+    user: state.user,
+  }),
+
+  {
+    fetchSetUser,
+    fetchDeleteUser,
+  }
+)(DefaultLayout);

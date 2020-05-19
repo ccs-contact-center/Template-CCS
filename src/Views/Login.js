@@ -21,10 +21,10 @@ import splash from "../Assets/img/brand/splash.png";
 import { ws } from "../Services/Socket";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { connect } from "react-redux";
+import { fetchSetUser } from "../Redux/Reducers/userReducer";
 
 const MySwal = withReactContent(Swal);
-
-//ws.addEventListener("open", function (event) {});
 
 class Login extends Component {
   constructor(props) {
@@ -50,6 +50,8 @@ class Login extends Component {
       md5(this.state.password)
     );
 
+    this.props.fetchSetUser(user.recordset);
+
     if (user.sucess === false && online.logged === false) {
       MySwal.fire({
         title: "Error al Iniciar Sesión",
@@ -60,7 +62,6 @@ class Login extends Component {
       });
 
       this.setState({ username: "", password: "" });
-      console.log("Contraseña incorrecta");
     } else if (user.sucess === true && online.logged === true) {
       MySwal.fire({
         title: "Tienes otra sesión activa!",
@@ -216,4 +217,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(
+  (state) => ({
+    user: state.user,
+  }),
+
+  {
+    fetchSetUser,
+  }
+)(Login);
