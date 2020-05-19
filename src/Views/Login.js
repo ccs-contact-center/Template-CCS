@@ -43,48 +43,54 @@ class Login extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
 
-    var res = await this.API_CCS.getOnlineStatus(this.state.username);
-    console.log(res);
-    if (res.logged === false) {
-      this.Auth.login(this.state.username, md5(this.state.password))
+    var online = await this.API_CCS.getOnlineStatus(this.state.username);
 
-        .then((res) => {
-          this.setUsername();
-          var campaniaData = res.recordset[0].campania;
+    var user = await this.Auth.login(
+      this.state.username,
+      md5(this.state.password)
+    );
 
-          this.setState({ campaign: campaniaData }, function () {
-            this.requestAvatar()
-              .then((res) => {
-                localStorage.removeItem("avatar");
-                localStorage.setItem("avatar", res[0].avatar);
-              })
-              .catch((err) => console.log(err));
-          });
-
-          this.props.history.replace("/Inicio");
-        })
-        .catch((err) => {
-          MySwal.fire({
-            title: "Error al Iniciar Sesión",
-            text:
-              "Usuario o contraseña invalidos, por favor intenta de nuevo (" +
-              err +
-              ")",
-            type: "error",
-            confirmButtonColor: "#C00327",
-            allowOutsideClick: true,
-          });
-
-          this.setState({ username: "", password: "" });
-        });
-    } else {
+    if (user.sucess === false && online.logged === false) {
       MySwal.fire({
         title: "Error al Iniciar Sesión",
-        text: "¡Ya hay una sesión activa de este usuario!",
+        text: "Usuario o contraseña invalidos, por favor intenta de nuevo",
         type: "error",
         confirmButtonColor: "#C00327",
         allowOutsideClick: true,
       });
+
+      this.setState({ username: "", password: "" });
+      console.log("Contraseña incorrecta");
+    } else if (user.sucess === true && online.logged === true) {
+      MySwal.fire({
+        title: "Tienes otra sesión activa!",
+        text: "¿Deseas cerrar las otras sesiones e ingresar aqui?",
+        type: "error",
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonColor: "#C00327",
+        cancelButtonColor: "#C00327",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.value) {
+          this.API_CCS.forceDisconnect(this.state.username).then((res) => {
+            this.setUsername();
+            console.log(res);
+            this.setState({ campaign: user.recordset[0].campania });
+            this.props.history.replace("/Inicio");
+          });
+        } else {
+          this.setState({ username: "", password: "" });
+        }
+      });
+    } else if (user.sucess === true && online.logged === false) {
+      this.setUsername();
+
+      this.setState({ campaign: user.recordset[0].campania });
+      this.props.history.replace("/Inicio");
+    } else {
+      console.log(user.sucess, online.logged);
     }
   }
 

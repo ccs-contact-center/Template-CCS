@@ -1,9 +1,5 @@
 import AuthService from "./AuthService";
-
-const hostURL = "https://api.ccscontactcenter.com";
-//const hostURL = 'http://localhost:8020'
-const socketURL = "https://socket.ccscontactcenter.com";
-//const socketURL = "http://localhost:8082";
+import { WS, hostURL } from "../config";
 
 export default class API_CCS {
   constructor() {
@@ -39,7 +35,18 @@ export default class API_CCS {
     });
   }
   getOnlineStatus(id) {
-    var response = fetch(socketURL + "/Socket/Clientes/" + id)
+    var response = fetch(hostURL + "/Socket/Clientes/" + id)
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+
+    return response;
+  }
+  forceDisconnect(id) {
+    var response = fetch(WS + "/Socket/Clientes/" + id, {
+      method: "DELETE",
+    })
       .then((response) => response.json())
       .then((data) => {
         return data;

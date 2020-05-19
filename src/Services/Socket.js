@@ -1,4 +1,3 @@
-const URL = "wss://socket.ccscontactcenter.com";
-//const URL = "ws://localhost:8082";
+import { WS } from "../config";
 
-export var ws = new WebSocket(URL);
+export var ws = new WebSocket(WS);

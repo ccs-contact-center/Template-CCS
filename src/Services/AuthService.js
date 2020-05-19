@@ -1,7 +1,5 @@
 import decode from "jwt-decode";
-
-const hostURL = "https://api.ccscontactcenter.com";
-//const hostURL = 'http://localhost:3020'
+import { hostURL } from "../config";
 
 export default class AuthService {
   constructor(domain) {
@@ -17,10 +15,14 @@ export default class AuthService {
         username,
         password,
       }),
-    }).then((res) => {
-      this.setToken(res.token);
-      return Promise.resolve(res);
-    });
+    })
+      .then((res) => {
+        this.setToken(res.token);
+        return Promise.resolve(res);
+      })
+      .catch((err) => {
+        console.log("cachao");
+      });
   }
 
   loggedIn() {
