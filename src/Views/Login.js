@@ -16,13 +16,17 @@ import {
 } from "reactstrap";
 import md5 from "md5";
 import AuthService from "../Services/AuthService";
-import API_CCS from "../Services/API_CCS";
+import { General, Socket } from "../Services/API_CCS";
 import splash from "../Assets/img/brand/splash.png";
 import { ws } from "../Services/Socket";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { connect } from "react-redux";
 import { fetchSetUser } from "../Redux/Reducers/userReducer";
+import {
+  Container as FABContainer,
+  Button as FABButton,
+} from "react-floating-action-button";
 
 const MySwal = withReactContent(Swal);
 
@@ -33,7 +37,8 @@ class Login extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.requestAvatar = this.requestAvatar.bind(this);
     this.Auth = new AuthService();
-    this.API_CCS = new API_CCS();
+    this.General = new General();
+    this.Socket = new Socket();
     this.state = {
       username: "",
       password: "",
@@ -43,7 +48,7 @@ class Login extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
 
-    var online = await this.API_CCS.getOnlineStatus(this.state.username);
+    var online = await this.Socket.getOnlineStatus(this.state.username);
 
     var user = await this.Auth.login(
       this.state.username,
@@ -75,7 +80,7 @@ class Login extends Component {
         cancelButtonText: "No",
       }).then((result) => {
         if (result.value) {
-          this.API_CCS.forceDisconnect(this.state.username).then((res) => {
+          this.General.forceDisconnect(this.state.username).then((res) => {
             this.setUsername();
             console.log(res);
             this.setState({ campaign: user.recordset[0].campania });
@@ -110,7 +115,7 @@ class Login extends Component {
   }
 
   requestAvatar = async () => {
-    const response = await this.API_CCS.getCampaignAvatar(this.state.campaign);
+    const response = await this.General.getCampaignAvatar(this.state.campaign);
     return response;
   };
 
@@ -129,6 +134,20 @@ class Login extends Component {
   render() {
     return (
       <div className="app flex-row align-items-center">
+        <FABContainer>
+          <FABButton
+            tooltip="Formulario de Reclutamiento"
+            icon="icon-list"
+            rotate
+            onClick={() => this.props.history.replace("/RHWizard")}
+            styles={{
+              backgroundColor: "rgba(192,3,39,0.8)",
+              color: "white",
+              width: 40,
+              height: 40,
+            }}
+          />
+        </FABContainer>
         <Container>
           <Row className="justify-content-center">
             <Col md="8">

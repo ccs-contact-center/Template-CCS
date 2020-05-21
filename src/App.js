@@ -11,7 +11,11 @@ const loading = () => (
 const DefaultLayout = React.lazy(() => import("./Containers/DefaultLayout"));
 const Login = React.lazy(() => import("./Views/Login"));
 
-
+const Reclutamiento = React.lazy(() => import("./Views/Reclutamiento"));
+const RHWizard = React.lazy(() => import("./Views/RHWizard"));
+const BusquedaCandidatos = React.lazy(() =>
+  import("./Views/BusquedaCandidatos")
+);
 
 class App extends Component {
   render() {
@@ -24,6 +28,21 @@ class App extends Component {
               path="/Login"
               name="Login Page"
               render={(props) => <Login {...props} />}
+            />
+            <Route
+              path="/Reclutamiento"
+              name="Reclutamiento"
+              render={(props) => <Reclutamiento {...props} />}
+            />
+            <Route
+              path="/RHWizard"
+              name="RHWizard"
+              render={(props) => <RHWizard {...props} />}
+            />
+            <Route
+              path="/BusquedaCandidatos"
+              name="Bussqueda Candidatos"
+              render={(props) => <BusquedaCandidatos {...props} />}
             />
             <Route
               path="/"

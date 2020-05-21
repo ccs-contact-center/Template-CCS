@@ -1,7 +1,7 @@
-import AuthService from "./AuthService";
-import { WS, hostURL } from "../config";
+import AuthService from "../AuthService";
+import { hostURL } from "../../config";
 
-export default class API_CCS {
+class API_CCS {
   constructor() {
     this.Auth = new AuthService();
     this.fetch = this.fetch.bind(this);
@@ -34,24 +34,6 @@ export default class API_CCS {
       return Promise.resolve(res);
     });
   }
-  getOnlineStatus(id) {
-    var response = fetch(hostURL + "/Socket/Clientes/" + id)
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
-
-    return response;
-  }
-  forceDisconnect(id) {
-    var response = fetch(WS + "/Socket/Clientes/" + id, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
-
-    return response;
-  }
 }
+
+export default API_CCS;
