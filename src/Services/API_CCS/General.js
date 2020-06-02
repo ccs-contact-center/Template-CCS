@@ -16,8 +16,9 @@ export default class API_CCS {
 
     if (await this.Auth.loggedIn()) {
       headers["Authorization"] = "Bearer " + (await this.Auth.getToken());
+      headers["id_ccs"] = this.Auth.getProfile().id_ccs;
     } else {
-      window.location.href = "/login";
+      window.location.href = "/Login";
     }
 
     return fetch(url, {
@@ -106,13 +107,7 @@ export default class API_CCS {
   }
 
   getCampanias() {
-    return this.fetchAnonimo(
-      hostURL + "/v1/campaigns/campanias",
-
-      {
-        method: "GET",
-      }
-    ).then((res) => {
+    return this.fetch(hostURL + "/v1/campaigns/campanias").then((res) => {
       return Promise.resolve(res);
     });
   }

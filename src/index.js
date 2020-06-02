@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { store, persistor } from "./Redux/Store";
 import { PersistGate } from "redux-persist/lib/integration/react";
+// eslint-disable-next-line
 import { Beforeunload } from "react-beforeunload";
 import ReactNotification from "react-notifications-component";
 import "./theme.css";
@@ -16,9 +17,9 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ReactNotification />
-      <Beforeunload onBeforeunload={() => "Abandonar Sesion"}>
-        <App />
-      </Beforeunload>
+      {/*<Beforeunload onBeforeunload={() => "Abandonar Sesion"}>*/}
+      <App />
+      {/*</Beforeunload>*/}
     </PersistGate>
   </Provider>,
   document.getElementById("root")

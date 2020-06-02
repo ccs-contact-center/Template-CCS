@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
+import { Button, Spinner } from "react-bootstrap";
 import {
-  Button,
   Card,
   CardBody,
   CardGroup,
@@ -47,7 +46,7 @@ class Login extends Component {
 
   async handleFormSubmit(e) {
     e.preventDefault();
-
+    this.setState({ loading: true });
     var online = await this.Socket.getOnlineStatus(this.state.username);
 
     var user = await this.Auth.login(
@@ -60,13 +59,13 @@ class Login extends Component {
     if (user.sucess === false && online.logged === false) {
       MySwal.fire({
         title: "Error al Iniciar Sesión",
-        text: "Usuario o contraseña invalidos, por favor intenta de nuevo",
+        text: user.err,
         type: "error",
         confirmButtonColor: "#C00327",
         allowOutsideClick: true,
       });
 
-      this.setState({ username: "", password: "" });
+      this.setState({ username: "", password: "", loading: false });
     } else if (user.sucess === true && online.logged === true) {
       MySwal.fire({
         title: "Tienes otra sesión activa!",
@@ -87,16 +86,16 @@ class Login extends Component {
             this.props.history.replace("/Inicio");
           });
         } else {
-          this.setState({ username: "", password: "" });
+          this.setState({ username: "", password: "", loading: false });
         }
       });
     } else if (user.sucess === true && online.logged === false) {
       this.setUsername();
-
       this.setState({ campaign: user.recordset[0].campania });
       this.props.history.replace("/Inicio");
     } else {
       console.log(user.sucess, online.logged);
+      this.setState({ loading: false });
     }
   }
 
@@ -192,16 +191,31 @@ class Login extends Component {
                           <Button
                             color="primary"
                             className="px-4"
-                            disabled={!this.validateForm()}
+                            disabled={
+                              !(
+                                this.state.username.length > 0 &&
+                                this.state.password.length > 0 &&
+                                !this.state.loading
+                              )
+                            }
                             type="submit"
                           >
-                            Login
+                            {this.state.loading ? (
+                              <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              "Login"
+                            )}
                           </Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">
-                            ¿Olvidaste tu contraseña?
-                          </Button>
+                          {/*eslint-disable-next-line*/}
+                          <a href="#">¿Olvidaste tu contraseña?</a>
                         </Col>
                       </Row>
                     </Form>

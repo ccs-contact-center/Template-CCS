@@ -86,7 +86,7 @@ export default class API_CCS {
   }
 
   getCandidatos() {
-    return this.fetchAnonimo(hostURL + "/v1/personal/candidatos", {
+    return this.fetch(hostURL + "/v1/personal/candidatos", {
       method: "GET",
     }).then((res) => {
       return Promise.resolve(res);

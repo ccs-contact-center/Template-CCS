@@ -11,17 +11,18 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppBreadcrumb2 as AppBreadcrumb,
   AppSidebarNav2 as AppSidebarNav,
 } from "@coreui/react";
 // sidebar nav config
+// eslint-disable-next-line
 import navigation from "../../_nav";
 // routes config
-import routes from "../../routes";
+//import routes from "../../routes";
+import { allowedRoutes } from "../../Services/routeHandler";
 import AuthService from "../../Services/AuthService";
 import { store as notiStore } from "react-notifications-component";
 import { ws } from "../../Services/Socket";
-
+import { General } from "../../Services/API_CCS";
 import { connect } from "react-redux";
 import {
   fetchDeleteUser,
@@ -32,6 +33,7 @@ const Auth = new AuthService();
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
+const API = new General();
 
 ws.addEventListener("open", (event) => {
   var user = Auth.getProfile();
@@ -48,6 +50,11 @@ ws.addEventListener("open", (event) => {
 });
 
 class DefaultLayout extends Component {
+  state = {
+    routes: [],
+    menu: { items: [] },
+  };
+
   loading = () => (
     <div className="animated fadeIn pt-1 text-center">Loading...</div>
   );
@@ -79,7 +86,6 @@ class DefaultLayout extends Component {
   componentDidMount() {
     ws.onmessage = (event) => {
       var data = JSON.parse(event.data);
-
       switch (data.type) {
         case "selfLogin":
           notiStore.addNotification({
@@ -119,9 +125,16 @@ class DefaultLayout extends Component {
           break;
       }
     };
+
+    API.getNavigationMenu(this.props.user.user[0].role).then((res) => {
+      this.setState({ menu: res });
+    });
+
+    this.setState({ routes: allowedRoutes(this.props.user.user[0].id_ccs) });
   }
 
   render() {
+    const { fetchSetUser, fetchDeleteUser, ...rest } = this.props;
     return (
       <div className="app">
         <AppHeader fixed>
@@ -135,8 +148,8 @@ class DefaultLayout extends Component {
             <AppSidebarForm />
             <Suspense>
               <AppSidebarNav
-                navConfig={navigation}
-                {...this.props}
+                navConfig={/*navigation*/ this.state.menu}
+                {...rest}
                 router={router}
               />
             </Suspense>
@@ -144,11 +157,12 @@ class DefaultLayout extends Component {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes} router={router} />
+            {/*<AppBreadcrumb appRoutes={this.state.routes} router={router} />*/}
+            <div style={{ marginTop: "4vh" }} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>
-                  {routes.map((route, idx) => {
+                  {this.state.routes.map((route, idx) => {
                     return route.component ? (
                       <Route
                         key={idx}

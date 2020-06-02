@@ -15,7 +15,11 @@ export default {
           url: '/Dashboard',
           icon: 'icon-puzzle',
         },],
-    },
+    },{
+      name: 'Entrevista RH',
+      url: '/EntrevistaRH',
+      icon: 'icon-home',
+    }
 
          
   ],

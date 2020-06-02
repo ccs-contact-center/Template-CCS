@@ -9,7 +9,7 @@ export default class AuthService {
   }
 
   login(username, password) {
-    return this.fetch(hostURL + "/v1/auth/login", {
+    return this.fetch(hostURL + "/v2/Auth/Login", {
       method: "POST",
       body: JSON.stringify({
         username,
@@ -21,7 +21,7 @@ export default class AuthService {
         return Promise.resolve(res);
       })
       .catch((err) => {
-        console.log("cachao");
+        console.log(err);
       });
   }
 
