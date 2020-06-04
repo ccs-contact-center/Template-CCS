@@ -127,10 +127,10 @@ class DefaultLayout extends Component {
     };
 
     API.getNavigationMenu(this.props.user.user[0].role).then((res) => {
-      this.setState({ menu: res });
+      this.setState({ menu: res }, () => {
+        this.setState({ routes: allowedRoutes(this.state.menu) });
+      });
     });
-
-    this.setState({ routes: allowedRoutes(this.props.user.user[0].id_ccs) });
   }
 
   render() {
