@@ -1,8 +1,8 @@
-import { hostURL } from "../../config";
+import { wsEndpoints } from "../../config";
 
 export default class Socket {
   getOnlineStatus(id) {
-    var response = fetch(hostURL + "/Socket/Clientes/" + id)
+    var response = fetch(wsEndpoints + "/Socket/Clientes/" + id)
       .then((response) => response.json())
       .then((data) => {
         return data;
