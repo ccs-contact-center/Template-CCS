@@ -81,7 +81,6 @@ class Login extends Component {
         if (result.value) {
           this.General.forceDisconnect(this.state.username).then((res) => {
             this.setUsername();
-            console.log(res);
             this.setState({ campaign: user.recordset[0].campania });
             this.props.history.replace("/Inicio");
           });

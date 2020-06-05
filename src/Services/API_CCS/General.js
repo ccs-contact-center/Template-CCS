@@ -1,5 +1,5 @@
 import { fetchCCS } from "./index";
-import { hostURL } from "../../config";
+import { hostURL, wsEndpoints } from "../../config";
 
 export default class API_CCS {
   sendMail(data) {
@@ -22,6 +22,18 @@ export default class API_CCS {
         method: "GET",
       },
       1
+    ).then((res) => {
+      return Promise.resolve(res);
+    });
+  }
+
+  forceDisconnect(id) {
+    return fetchCCS(
+      wsEndpoints + "/Socket/Clientes/" + id,
+      {
+        method: "DELETE",
+      },
+      0
     ).then((res) => {
       return Promise.resolve(res);
     });

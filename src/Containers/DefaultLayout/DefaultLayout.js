@@ -28,6 +28,8 @@ import {
   fetchDeleteUser,
   fetchSetUser,
 } from "../../Redux/Reducers/userReducer";
+import { setUI } from "../../Redux/Reducers/uiReducer";
+import withAuth from "../../Services/withAuth";
 
 const Auth = new AuthService();
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
@@ -126,15 +128,28 @@ class DefaultLayout extends Component {
       }
     };
 
-    API.getNavigationMenu(this.props.user.user[0].role).then((res) => {
+    API.getNavigationMenu(this.props.user.user[0].role)
+      .then((res) => {
+        this.props.setUI(res);
+      })
+      .then(() => {
+        this.setState({ routes: allowedRoutes(this.props.ui.ui) });
+      })
+      .catch((ex) => {
+        console.log(
+          "Hay un error para construir el sistema de navegación (" + ex + ")"
+        );
+      });
+
+    /*API.getNavigationMenu(this.props.user.user[0].role).then((res) => {
       this.setState({ menu: res }, () => {
         this.setState({ routes: allowedRoutes(this.state.menu) });
       });
-    });
+    });*/
   }
 
   render() {
-    const { fetchSetUser, fetchDeleteUser, ...rest } = this.props;
+    const { fetchSetUser, fetchDeleteUser, setUI, ...rest } = this.props;
     return (
       <div className="app">
         <AppHeader fixed>
@@ -148,7 +163,7 @@ class DefaultLayout extends Component {
             <AppSidebarForm />
             <Suspense>
               <AppSidebarNav
-                navConfig={/*navigation*/ this.state.menu}
+                navConfig={/*navigation  this.state.menu*/ this.props.ui.ui}
                 {...rest}
                 router={router}
               />
@@ -197,10 +212,12 @@ class DefaultLayout extends Component {
 export default connect(
   (state) => ({
     user: state.user,
+    ui: state.ui,
   }),
 
   {
     fetchSetUser,
     fetchDeleteUser,
+    setUI,
   }
-)(DefaultLayout);
+)(withAuth(DefaultLayout));

@@ -47,7 +47,7 @@ export default function withAuth(AuthComponent) {
 
     render() {
       if (this.state.user) {
-        return <AuthComponent history={this.props.history} />;
+        return <AuthComponent history={this.props.history} {...this.props} />;
       } else {
         return null;
       }
