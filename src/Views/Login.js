@@ -28,17 +28,6 @@ import {
 } from "react-floating-action-button";
 
 const MySwal = withReactContent(Swal);
-ws.addEventListener("open", (event) => {
-  ws.send(
-    JSON.stringify({
-      type: "initial",
-      data: {
-        username: "test",
-        date: "test",
-      },
-    })
-  );
-});
 
 class Login extends Component {
   constructor(props) {
@@ -128,7 +117,7 @@ class Login extends Component {
     return response;
   };
 
-  setUsername() { 
+  setUsername() {
     var d = new Date();
     var login = {
       type: "login",
