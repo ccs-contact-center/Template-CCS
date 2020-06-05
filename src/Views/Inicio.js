@@ -8,6 +8,7 @@ import { allowedRoutes } from "../Services/routeHandler";
 import { General } from "../Services/API_CCS";
 import { connect } from "react-redux";
 import { setUI } from "../Redux/Reducers/uiReducer";
+// eslint-disable-next-line
 import { isLocalhost } from "../config";
 
 const API = new General();
@@ -59,38 +60,40 @@ class Inicio extends Component {
           </CardBody>
         </Card>
 
-        {isLocalhost ? (
-          <Card>
-            <CardHeader className="text-center">Test UI</CardHeader>
-            <CardBody className="text-center">
-              <input
-                type="number"
-                value={this.state.role}
-                onChange={this.handleChange}
-                id="role"
-              ></input>
+        {
+          /*isLocalhost*/ true ? (
+            <Card>
+              <CardHeader className="text-center">Test UI</CardHeader>
+              <CardBody className="text-center">
+                <input
+                  type="number"
+                  value={this.state.role}
+                  onChange={this.handleChange}
+                  id="role"
+                ></input>
 
-              <Button
-                color="primary"
-                className="px-4"
-                type="button"
-                onClick={() => this.changeUI(this.state.role)}
-              >
-                {this.state.loading ? (
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  "Cambiar"
-                )}
-              </Button>
-            </CardBody>
-          </Card>
-        ) : null}
+                <Button
+                  color="primary"
+                  className="px-4"
+                  type="button"
+                  onClick={() => this.changeUI(this.state.role)}
+                >
+                  {this.state.loading ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    "Cambiar"
+                  )}
+                </Button>
+              </CardBody>
+            </Card>
+          ) : null
+        }
       </div>
     );
   }
