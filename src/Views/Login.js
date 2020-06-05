@@ -29,7 +29,15 @@ import {
 
 const MySwal = withReactContent(Swal);
 ws.addEventListener("open", (event) => {
- 
+  ws.send(
+    JSON.stringify({
+      type: "initial",
+      data: {
+        username: "test",
+        date: "test",
+      },
+    })
+  );
 });
 
 class Login extends Component {
