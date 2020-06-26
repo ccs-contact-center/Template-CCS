@@ -7,6 +7,7 @@ const EntrevistaOP = React.lazy(() => import("./Views/EntrevistaOP"));
 const Confirmar = React.lazy(() => import("./Views/Confirmar"));
 const CalidadRecluta = React.lazy(() => import("./Views/CalidadRecluta"));
 
+
 const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/Inicio", name: "Inicio", component: Inicio },

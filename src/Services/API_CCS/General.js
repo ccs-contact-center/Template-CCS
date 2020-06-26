@@ -95,7 +95,7 @@ export default class API_CCS {
     return fetchCCS(
       hostURL + "/v1/campaigns/campanias",
       { method: "GET" },
-      1
+      0
     ).then((res) => {
       return Promise.resolve(res);
     });

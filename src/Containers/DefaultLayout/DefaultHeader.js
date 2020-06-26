@@ -73,8 +73,12 @@ class DefaultHeader extends Component {
               <DropdownItem header tag="div" className="text-center">
                 <strong>Opciones</strong>
               </DropdownItem>
+              <DropdownItem onClick={(e) => this.props.myProfile(e)}>
+                <i className="fa fa-user"></i> Mi Perfil
+              </DropdownItem>
+
               <DropdownItem onClick={(e) => this.props.onLogout(e)}>
-                <i className="fa fa-lock"></i> Logout
+                <i className="fa fa-lock"></i> Cerrar Sesión
               </DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>

@@ -20,7 +20,7 @@ const columns = [
   {
     title: "ID",
     field: "id",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 60
@@ -28,7 +28,7 @@ const columns = [
   {
     title: "Fecha Reclutamiento",
     field: "Fecha_Reclutamiento",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 100
@@ -36,7 +36,7 @@ const columns = [
   {
     title: "Candidato",
     field: "Candidato",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 300
@@ -44,7 +44,7 @@ const columns = [
   {
     title: "Fecha de Nacimiento",
     field: "Fecha_Nacimiento",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 100
@@ -52,7 +52,7 @@ const columns = [
   {
     title: "Edad",
     field: "Edad",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 80
@@ -60,7 +60,7 @@ const columns = [
   {
     title: "Estado Civil",
     field: "edo_civil",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 135
@@ -68,7 +68,7 @@ const columns = [
   {
     title: "Celular",
     field: "tel_cel",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130
@@ -76,7 +76,7 @@ const columns = [
   {
     title: "Fijo",
     field: "tel_casa",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130
@@ -84,7 +84,7 @@ const columns = [
   {
     title: "e-mail",
     field: "email",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 200

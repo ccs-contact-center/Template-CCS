@@ -631,6 +631,7 @@ class EntrevistaRH extends Component {
       );
     });
   }
+  
 
   requestCampanias = async () => {
     const response = await this.General.getCampanias();

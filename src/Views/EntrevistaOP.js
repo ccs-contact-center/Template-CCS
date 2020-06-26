@@ -33,7 +33,7 @@ const columns = [
   {
     title: "ID",
     field: "id",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 60,
@@ -41,7 +41,7 @@ const columns = [
   {
     title: "Nombres",
     field: "nombres",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 200,
@@ -49,7 +49,7 @@ const columns = [
   {
     title: "Paterno",
     field: "paterno",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 200,
@@ -57,7 +57,7 @@ const columns = [
   {
     title: "Materno",
     field: "materno",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 200,
@@ -65,7 +65,7 @@ const columns = [
   {
     title: "Edad",
     field: "Edad",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 80,
@@ -73,7 +73,7 @@ const columns = [
   {
     title: "Estado Civil",
     field: "edo_civil",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 135,
@@ -81,7 +81,7 @@ const columns = [
   {
     title: "Campaña",
     field: "campania",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130,
@@ -89,7 +89,7 @@ const columns = [
   {
     title: "Turno",
     field: "turno",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130,

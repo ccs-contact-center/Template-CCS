@@ -79,7 +79,7 @@ export default class API_CCS {
       {
         method: "GET",
       },
-      1
+      0
     ).then((res) => {
       return Promise.resolve(res);
     });
@@ -103,7 +103,7 @@ export default class API_CCS {
       {
         method: "GET",
       },
-      1
+      0
     ).then((res) => {
       return Promise.resolve(res);
     });
@@ -117,7 +117,7 @@ export default class API_CCS {
         method: "PATCH",
         body: JSON.stringify(data),
       },
-      1
+      0
     ).then((res) => {
       return Promise.resolve(res);
     });

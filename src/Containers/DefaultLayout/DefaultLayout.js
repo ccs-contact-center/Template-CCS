@@ -28,7 +28,8 @@ import {
   fetchDeleteUser,
   fetchSetUser,
 } from "../../Redux/Reducers/userReducer";
-import { setUI } from "../../Redux/Reducers/uiReducer";
+import { setUI, deleteUI } from "../../Redux/Reducers/uiReducer";
+
 import withAuth from "../../Services/withAuth";
 
 const Auth = new AuthService();
@@ -82,7 +83,12 @@ class DefaultLayout extends Component {
     ws.send(JSON.stringify(login));
     Auth.logout();
     this.props.fetchDeleteUser();
+    this.props.deleteUI();
     this.props.history.replace("/Login");
+  }
+
+  profile(e) {
+    this.props.history.replace("/Profile");
   }
 
   componentDidMount() {
@@ -128,33 +134,43 @@ class DefaultLayout extends Component {
       }
     };
 
-    API.getNavigationMenu(this.props.user.user[0].role)
-      .then((res) => {
-        this.props.setUI(res);
-      })
-      .then(() => {
-        this.setState({ routes: allowedRoutes(this.props.ui.ui) });
-      })
-      .catch((ex) => {
-        console.log(
-          "Hay un error para construir el sistema de navegación (" + ex + ")"
-        );
-      });
+    var validation =
+      JSON.stringify(this.props.ui.ui) === JSON.stringify({ items: [] });
 
-    /*API.getNavigationMenu(this.props.user.user[0].role).then((res) => {
-      this.setState({ menu: res }, () => {
-        this.setState({ routes: allowedRoutes(this.state.menu) });
-      });
-    });*/
+    if (validation === true) {
+      API.getNavigationMenu(this.props.user.user[0].role)
+        .then((res) => {
+          this.props.setUI(res);
+        })
+        .then(() => {
+          this.setState({ routes: allowedRoutes(this.props.ui.ui) });
+        })
+        .catch((ex) => {
+          console.log(
+            "Hay un error para construir el sistema de navegación (" + ex + ")"
+          );
+        });
+    } else {
+      this.setState({ routes: allowedRoutes(this.props.ui.ui) });
+    }
   }
 
   render() {
-    const { fetchSetUser, fetchDeleteUser, setUI, ...rest } = this.props;
+    const {
+      fetchSetUser,
+      fetchDeleteUser,
+      setUI,
+      deleteUI,
+      ...rest
+    } = this.props;
     return (
       <div className="app">
         <AppHeader fixed>
           <Suspense fallback={this.loading()}>
-            <DefaultHeader onLogout={(e) => this.signOut(e)} />
+            <DefaultHeader
+              onLogout={(e) => this.signOut(e)}
+              myProfile={(e) => this.profile(e)}
+            />
           </Suspense>
         </AppHeader>
         <div className="app-body">
@@ -219,5 +235,6 @@ export default connect(
     fetchSetUser,
     fetchDeleteUser,
     setUI,
+    deleteUI,
   }
 )(withAuth(DefaultLayout));

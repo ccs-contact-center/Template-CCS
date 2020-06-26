@@ -8,11 +8,13 @@ const EntrevistaRH = React.lazy(() => import("../Views/EntrevistaRH"));
 const EntrevistaOP = React.lazy(() => import("../Views/EntrevistaOP"));
 const Confirmar = React.lazy(() => import("../Views/Confirmar"));
 const CalidadRecluta = React.lazy(() => import("../Views/CalidadRecluta"));
+const Profile = React.lazy(() => import("../Views/Profile"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/Inicio", name: "Inicio", component: Inicio },
   { path: "/Dashboard", name: "Dashboard", component: Dashboard },
+  { path: "/Profile", name: "Mi Perfil", component: Profile },
   { path: "/EntrevistaRH", name: "Entrevistas Pendientes", component: EntrevistaRH },
   { path: "/EntrevistaOP", name: "Entrevistas Pendientes", component: EntrevistaOP },
   { path: "/Confirmar", name: "Candidatos a Confirmar", component: Confirmar },
@@ -25,6 +27,7 @@ var authRoutes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/Inicio", name: "Inicio", component: Inicio },
   { path: "/Dashboard", name: "Dashboard", component: Dashboard },
+  { path: "/Profile", name: "Mi Perfil", component: Profile },
 ];
 
 export var allowedRoutes = (id) => {

@@ -153,7 +153,7 @@ const columns = [
   {
     title: "ID",
     field: "id",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 60,
@@ -161,7 +161,7 @@ const columns = [
   {
     title: "Fecha Reclutamiento",
     field: "Fecha_Reclutamiento",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 100,
@@ -169,7 +169,7 @@ const columns = [
   {
     title: "Candidato",
     field: "Candidato",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 300,
@@ -177,7 +177,7 @@ const columns = [
   {
     title: "Fecha de Nacimiento",
     field: "Fecha_Nacimiento",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 100,
@@ -185,7 +185,7 @@ const columns = [
   {
     title: "Edad",
     field: "Edad",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 80,
@@ -193,7 +193,7 @@ const columns = [
   {
     title: "Estado Civil",
     field: "edo_civil",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 135,
@@ -201,7 +201,7 @@ const columns = [
   {
     title: "Celular",
     field: "tel_cel",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130,
@@ -209,7 +209,7 @@ const columns = [
   {
     title: "Fijo",
     field: "tel_casa",
-    align: "center",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 130,
@@ -217,7 +217,7 @@ const columns = [
   {
     title: "e-mail",
     field: "email",
-    align: "left",
+    hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
     width: 200,
@@ -244,7 +244,6 @@ class EntrevistaRH extends Component {
       loading: false,
       id_user: "",
       isSaving: false,
-
       nombres: "",
       paterno: "",
       materno: "",
@@ -270,7 +269,6 @@ class EntrevistaRH extends Component {
       tel_2: "",
       email: "",
       claveEstado: "",
-
       status_entrevista: "",
       turno: "",
       motiivo_rechazo: "",
@@ -279,18 +277,20 @@ class EntrevistaRH extends Component {
   }
 
   toTitleCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
+    return str.replace(/\w\S*/g, (txt) => {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-  rowClick = (e, row) => {
+
+  rowClick = async (e, row) => {
     this.setState({
       selectedLead: `${row.getData().id}`,
       loading: true,
     });
 
-    this.Candidatos.getCandidato(`${row.getData().id}`).then((res) => {
+    await this.Candidatos.getCandidato(`${row.getData().id}`).then((res) => {
       var fecha = moment.utc(res[0].fecha_nacimiento).format("YYYY-MM-DD");
+
       this.setState({
         nombres: res[0].nombres,
         paterno: res[0].paterno,
@@ -315,7 +315,7 @@ class EntrevistaRH extends Component {
         municipio: this.toTitleCase(res[0].del_mun),
         municipios: [],
         estado: this.toTitleCase(res[0].estado),
-
+        status_entrevista: 0,
         tel_1: res[0].tel_cel,
         tel_2: res[0].tel_casa,
         email: res[0].email,
@@ -549,7 +549,7 @@ class EntrevistaRH extends Component {
 
     this.setState({ isSaving: true, status_entrevista: 0 });
 
-    this.General.updateCandidato(this.state)
+    this.Candidatos.updateCandidato(this.state)
       .then((res) => {
         MySwal.fire(
           {
@@ -560,7 +560,7 @@ class EntrevistaRH extends Component {
             confirmButtonColor: "#C00327",
             allowOutsideClick: false,
           },
-          this.props.history.replace("/login")
+          this.props.history.replace("/Login")
         );
 
         this.setState({
@@ -624,8 +624,8 @@ class EntrevistaRH extends Component {
     this.setState({ isSaving: false });
   }
 
-  updateTable() {
-    this.Candidatos.getCartera()
+  async updateTable() {
+    await this.Candidatos.getCartera()
       .then((response) => {
         return response;
       })
@@ -636,16 +636,15 @@ class EntrevistaRH extends Component {
   }
 
   async componentDidMount() {
-    this.updateTable();
+    await this.updateTable();
     this.setState({
-      campanias: await this.populateCampanias(await this.requestCampanias()),
+      campanias: await this.populateCampanias(),
     });
   }
 
   async populateCampanias() {
     var CampaniasJSON = await this.requestCampanias();
-
-    return CampaniasJSON.map(function (data, i) {
+    return CampaniasJSON.map((data, i) => {
       return (
         <option key={data.id_campania} value={data.campania}>
           {data.campania}
