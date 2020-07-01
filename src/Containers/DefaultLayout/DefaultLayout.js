@@ -15,7 +15,7 @@ import {
 } from "@coreui/react";
 // sidebar nav config
 // eslint-disable-next-line
-import navigation from "../../_nav";
+//import navigation from "../../_nav";
 // routes config
 //import routes from "../../routes";
 import { allowedRoutes } from "../../Services/routeHandler";

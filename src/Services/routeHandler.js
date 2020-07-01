@@ -9,6 +9,7 @@ const EntrevistaOP = React.lazy(() => import("../Views/Operaciones/EntrevistaOP"
 const Confirmar = React.lazy(() => import("../Views/Reclutamiento/Confirmar"));
 const CalidadRecluta = React.lazy(() => import("../Views/Auditoria/CalidadRecluta"));
 const Profile = React.lazy(() => import("../Views/Profile"));
+const AsignacionGrupo = React.lazy(() => import("../Views/Capacitacion/AsignacionGrupo"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -19,6 +20,7 @@ const routes = [
   { path: "/EntrevistaOP", name: "Entrevistas Pendientes", component: EntrevistaOP },
   { path: "/Confirmar", name: "Candidatos a Confirmar", component: Confirmar },
   { path: "/CalidadRecluta", name: "Calidad Recluta", component: CalidadRecluta },
+  { path: "/AsignacionGrupo", name: "Asignacion de Grupo", component: AsignacionGrupo },
 ];
 
 

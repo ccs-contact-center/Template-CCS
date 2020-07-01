@@ -6,7 +6,7 @@ import { hostURL } from "../../config";
 export default class API_CCS {
   insertCandidato(state) {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatos",
+      hostURL + "/v2/personal/candidatos",
       {
         method: "POST",
         body: JSON.stringify(state),
@@ -21,7 +21,7 @@ export default class API_CCS {
     var fecha = moment.utc(state.fecha_nacimiento).format("DD/MM/YYYY");
     return fetchCCS(
       hostURL +
-        "/v1/personal/candidatoValidacion?nombres=" +
+        "/v2/personal/candidatoValidacion?nombres=" +
         state.nombres +
         "&paterno=" +
         state.paterno +
@@ -40,7 +40,7 @@ export default class API_CCS {
 
   getCandidatos() {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatos",
+      hostURL + "/v2/personal/candidatos",
       {
         method: "GET",
       },
@@ -52,7 +52,7 @@ export default class API_CCS {
 
   getCandidatosConfirmar() {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatosConfirmar",
+      hostURL + "/v2/personal/candidatosConfirmar",
       {
         method: "GET",
       },
@@ -64,7 +64,7 @@ export default class API_CCS {
 
   getCandidatosAuditoria() {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatosAuditoria",
+      hostURL + "/v2/personal/candidatosAuditoria",
       {
         method: "GET",
       },
@@ -75,7 +75,7 @@ export default class API_CCS {
   }
   getCartera() {
     return fetchCCS(
-      hostURL + "/v1/personal/cartera",
+      hostURL + "/v2/personal/cartera",
       {
         method: "GET",
       },
@@ -86,7 +86,7 @@ export default class API_CCS {
   }
   getCandidatosRP() {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatosRolePlay",
+      hostURL + "/v2/personal/candidatosRolePlay",
       {
         method: "GET",
       },
@@ -98,7 +98,7 @@ export default class API_CCS {
 
   getCandidato(id) {
     return fetchCCS(
-      hostURL + "/v1/personal/candidato/" + id,
+      hostURL + "/v2/personal/candidato/" + id,
 
       {
         method: "GET",
@@ -111,7 +111,7 @@ export default class API_CCS {
 
   updateCandidato(data) {
     return fetchCCS(
-      hostURL + "/v1/personal/candidato/" + data.selectedLead,
+      hostURL + "/v2/personal/candidato/" + data.selectedLead,
 
       {
         method: "PATCH",
@@ -125,23 +125,10 @@ export default class API_CCS {
 
   updateCandidatoRolePlay(data) {
     return fetchCCS(
-      hostURL + "/v1/personal/candidatoRolePlay/" + data.selectedLead,
+      hostURL + "/v2/personal/candidatoRolePlay/" + data.selectedLead,
 
       {
         method: "PATCH",
-        body: JSON.stringify(data),
-      },
-      1
-    ).then((res) => {
-      return Promise.resolve(res);
-    });
-  }
-  empleadosIntegracion(data) {
-    return fetchCCS(
-      hostURL + "/v1/personal/EmpleadosIntegracion/",
-
-      {
-        method: "POST",
         body: JSON.stringify(data),
       },
       1

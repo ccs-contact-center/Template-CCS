@@ -4,7 +4,7 @@ import { hostURL, wsEndpoints } from "../../config";
 export default class API_CCS {
   sendMail(data) {
     return fetchCCS(
-      "https://api.ccscontactcenter.com/v1/interface/send-email",
+      "https://api.ccscontactcenter.com/v2/interface/send-email",
       {
         method: "POST",
         body: JSON.stringify(data),
@@ -17,7 +17,7 @@ export default class API_CCS {
 
   getNavigationMenu(roleID) {
     return fetchCCS(
-      hostURL + "/v1/catalogs/menu?role=" + roleID,
+      hostURL + "/v2/catalogs/menu?role=" + roleID,
       {
         method: "GET",
       },
@@ -42,7 +42,7 @@ export default class API_CCS {
   getColonias(Estado, Municipio) {
     return fetchCCS(
       hostURL +
-        "/v1/catalogs/colonias?estado=" +
+        "/v2/catalogs/colonias?estado=" +
         Estado +
         "&municipio=" +
         Municipio,
@@ -57,7 +57,7 @@ export default class API_CCS {
 
   getMunicipios(Estado) {
     return fetchCCS(
-      hostURL + "/v1/catalogs/municipios?estado=" + Estado,
+      hostURL + "/v2/catalogs/municipios?estado=" + Estado,
       {
         method: "GET",
       },
@@ -69,7 +69,7 @@ export default class API_CCS {
 
   getCP(CP) {
     return fetchCCS(
-      hostURL + "/v1/catalogs/codigo_postal/" + CP,
+      hostURL + "/v2/catalogs/codigo_postal/" + CP,
       {
         method: "GET",
       },
@@ -81,7 +81,7 @@ export default class API_CCS {
 
   getClaveEstado(Estado) {
     return fetchCCS(
-      hostURL + "/v1/catalogs/clavesEstados/" + Estado,
+      hostURL + "/v2/catalogs/clavesEstados/" + Estado,
       {
         method: "GET",
       },
@@ -93,7 +93,7 @@ export default class API_CCS {
 
   getCampanias() {
     return fetchCCS(
-      hostURL + "/v1/campaigns/campanias",
+      hostURL + "/v2/campaigns/campanias",
       { method: "GET" },
       0
     ).then((res) => {
@@ -103,7 +103,7 @@ export default class API_CCS {
 
   getCampaignAvatar(id) {
     return fetchCCS(
-      hostURL + "/v1/Campaigns/Avatar?id=" + id,
+      hostURL + "/v2/Campaigns/Avatar?id=" + id,
       {
         method: "GET",
       },
@@ -115,7 +115,7 @@ export default class API_CCS {
 
   getCampaignIdByName(name) {
     return fetchCCS(
-      hostURL + "/v1/Campaigns/getByname/" + name,
+      hostURL + "/v2/Campaigns/getByname/" + name,
       {
         method: "GET",
       },
