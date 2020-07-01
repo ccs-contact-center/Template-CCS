@@ -15,9 +15,9 @@ import {
   Button,
 } from "reactstrap";
 import Select from "react-select";
-import withAuth from "../Services/withAuth";
-import { General, Candidatos } from "../Services/API_CCS";
-import AuthService from "../Services/AuthService";
+import withAuth from "../../Services/withAuth";
+import { General, Candidatos } from "../../Services/API_CCS";
+import AuthService from "../../Services/AuthService";
 import { ReactTabulator } from "react-tabulator"; // for React 15.x, use import { React15Tabulator }
 import { getStyle } from "@coreui/coreui/dist/js/coreui-utilities";
 import Swal from "sweetalert2";

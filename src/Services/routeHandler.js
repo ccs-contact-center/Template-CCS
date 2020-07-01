@@ -4,10 +4,10 @@ import React from "react";
 const Inicio = React.lazy(() => import("../Views/Inicio"));
 const Dashboard = React.lazy(() => import("../Views/Dashboard"));
 
-const EntrevistaRH = React.lazy(() => import("../Views/EntrevistaRH"));
-const EntrevistaOP = React.lazy(() => import("../Views/EntrevistaOP"));
-const Confirmar = React.lazy(() => import("../Views/Confirmar"));
-const CalidadRecluta = React.lazy(() => import("../Views/CalidadRecluta"));
+const EntrevistaRH = React.lazy(() => import("../Views/Reclutamiento/EntrevistaRH"));
+const EntrevistaOP = React.lazy(() => import("../Views/Operaciones/EntrevistaOP"));
+const Confirmar = React.lazy(() => import("../Views/Reclutamiento/Confirmar"));
+const CalidadRecluta = React.lazy(() => import("../Views/Auditoria/CalidadRecluta"));
 const Profile = React.lazy(() => import("../Views/Profile"));
 
 const routes = [

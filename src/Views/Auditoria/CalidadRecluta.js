@@ -3,9 +3,9 @@ import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css";
 import Loader from "react-loader-spinner";
 import React, { Component } from "react";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
-import withAuth from "../Services/withAuth";
-import { General, Candidatos, Usuarios } from "../Services/API_CCS";
-import AuthService from "../Services/AuthService";
+import withAuth from "../../Services/withAuth";
+import { General, Candidatos, Usuarios } from "../../Services/API_CCS";
+import AuthService from "../../Services/AuthService";
 import { ReactTabulator } from "react-tabulator"; // for React 15.x, use import { React15Tabulator }
 import { getStyle } from "@coreui/coreui/dist/js/coreui-utilities";
 import Swal from "sweetalert2";
@@ -220,10 +220,10 @@ class EntrevistaRH extends Component {
           adic_views: null,
           modo: 0,
           centro: 0,
-          campania: 0,
+          campania: res[0].campania,
           area: 0,
           puesto: 0,
-          jefe_directo: 1,
+          jefe_directo: null,
           analista: 0,
           instructor: 0,
           fecha_preingreso: null,
@@ -239,6 +239,10 @@ class EntrevistaRH extends Component {
           blacklisted: 0,
           id_candidato: this.state.selectedLead,
         });
+      })
+      .then(async (res) => {
+        var data = await this.getCampaignID(this.state.campania);
+        this.setState({ campania: data[0].id });
       })
       .then((res) => console.log(this.state))
       .then((res) => {
@@ -444,6 +448,10 @@ class EntrevistaRH extends Component {
       });
   }
 
+  getCampaignID = async (name) => {
+    var x = await this.General.getCampaignIdByName(name);
+    return x;
+  };
   async componentDidMount() {
     this.updateTable();
   }

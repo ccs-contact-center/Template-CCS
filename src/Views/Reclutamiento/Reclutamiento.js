@@ -11,15 +11,14 @@ import {
   Form,
   Container,
 } from "reactstrap";
-import { General, Candidatos } from "../Services/API_CCS";
-import AuthService from "../Services/AuthService";
+import { General, Candidatos } from "../../Services/API_CCS";
+import AuthService from "../../Services/AuthService";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Loader from "react-loader-spinner";
 import { getStyle } from "@coreui/coreui/dist/js/coreui-utilities";
 import Select from "react-select";
 import * as router from "react-router-dom";
-import routes from "../routes";
 import {
   AppHeader,
   AppBreadcrumb2 as AppBreadcrumb,
@@ -28,11 +27,13 @@ import {
 import moment from "moment";
 import "moment/locale/es";
 
+const routes = [{ path: "/", exact: true, name: "Home" }];
+
 const DefaultHeader = React.lazy(() =>
-  import("../Containers/DefaultLayout/LoggedOutHeader")
+  import("../../Containers/DefaultLayout/LoggedOutHeader")
 );
 const DefaultFooter = React.lazy(() =>
-  import("../Containers/DefaultLayout/DefaultFooter")
+  import("../../Containers/DefaultLayout/DefaultFooter")
 );
 
 const brandColor = "#fc4669";

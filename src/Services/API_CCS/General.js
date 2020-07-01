@@ -112,4 +112,16 @@ export default class API_CCS {
       return Promise.resolve(res);
     });
   }
+
+  getCampaignIdByName(name) {
+    return fetchCCS(
+      hostURL + "/v1/Campaigns/getByname/" + name,
+      {
+        method: "GET",
+      },
+      1
+    ).then((res) => {
+      return Promise.resolve(res);
+    });
+  }
 }

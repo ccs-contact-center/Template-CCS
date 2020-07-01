@@ -11,10 +11,10 @@ const loading = () => (
 const DefaultLayout = React.lazy(() => import("./Containers/DefaultLayout"));
 const Login = React.lazy(() => import("./Views/Login"));
 
-const Reclutamiento = React.lazy(() => import("./Views/Reclutamiento"));
-const RHWizard = React.lazy(() => import("./Views/RHWizard"));
+const Reclutamiento = React.lazy(() => import("./Views/Reclutamiento/Reclutamiento"));
+const RHWizard = React.lazy(() => import("./Views/Reclutamiento/RHWizard"));
 const BusquedaCandidatos = React.lazy(() =>
-  import("./Views/BusquedaCandidatos")
+  import("./Views/Reclutamiento/BusquedaCandidatos")
 );
 
 class App extends Component {
