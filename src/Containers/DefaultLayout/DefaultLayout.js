@@ -136,9 +136,12 @@ class DefaultLayout extends Component {
 
     var validation =
       JSON.stringify(this.props.ui.ui) === JSON.stringify({ items: [] });
-
+    console.log(this.props.user.user[0]);
     if (validation === true) {
-      API.getNavigationMenu(this.props.user.user[0].role)
+      API.getNavigationMenu(
+        this.props.user.user[0].role,
+        this.props.user.user[0].su
+      )
         .then((res) => {
           this.props.setUI(res);
         })

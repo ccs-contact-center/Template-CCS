@@ -626,7 +626,7 @@ class EntrevistaRHC extends Component {
   }
 
   async updateTable() {
-    await this.Candidatos.getCartera()
+    await this.Candidatos.getCandidatos([1, 2])
       .then((response) => {
         return response;
       })

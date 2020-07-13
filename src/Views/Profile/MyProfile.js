@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Row, FormGroup, Label, Input, Form, Container } from "reactstrap";
 import { General, Candidatos } from "../../Services/API_CCS";
 import AuthService from "../../Services/AuthService";
+import { connect } from "react-redux";
 
 class Llamada_General extends Component {
   loading = () => (
@@ -16,40 +17,39 @@ class Llamada_General extends Component {
     this.formRef = React.createRef();
     this.state = {
       isSaving: false,
-      nombres: "",
-      paterno: "",
-      materno: "",
-      sexo: "",
-      fecha_nacimiento: "",
-      edo_civil: "",
-      CURP: "",
-      RFC: "",
-      NSS: "",
-      dependientes: "",
-      escolaridad: "",
-      tipo_vial: "",
-      calle: "",
-      exterior: "",
-      interior: "",
-      entrecalles: "",
-      cp: "",
-      colonia: "",
+      nombres: this.props.user.user[0].nombres,
+      paterno: this.props.user.user[0].paterno,
+      materno: this.props.user.user[0].materno,
+      sexo: this.props.user.user[0].sexo,
+      fecha_nacimiento: this.props.user.user[0].fecha_nacimiento,
+      edo_civil: this.props.user.user[0].edo_civil,
+      CURP: this.props.user.user[0].CURP,
+      RFC: this.props.user.user[0].RFC,
+      NSS: this.props.user.user[0].NSS,
+      dependientes: this.props.user.user[0].dep_economicos,
+      escolaridad: this.props.user.user[0].escolaridad,
+      tipo_vial: this.props.user.user[0].tipo_vial,
+      calle: this.props.user.user[0].calle,
+      exterior: this.props.user.user[0].ext,
+      interior: this.props.user.user[0].int,
+      entrecalles: this.props.user.user[0].entrecalles,
+      cp: this.props.user.user[0].cp,
+      colonia: this.props.user.user[0].colonia,
       colonias: [],
-      municipio: "",
+      municipio: this.props.user.user[0].municipio,
       municipios: [],
-      estado: "",
+      estado: this.props.user.user[0].estado,
       estadoNacimiento: "",
-      tel_1: "",
-      tel_2: "",
-      email: "",
+      tel_1: this.props.user.user[0].tel_cel,
+      tel_2: this.props.user.user[0].tel_casa,
+      email: this.props.user.user[0].email,
       claveEstado: "DF",
-      activeTab: new Array(4).fill("1"),
       id_user: this.Auth.getProfile().id_ccs,
     };
   }
 
   titleCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
+    return str.replace(/\w\S*/g, (txt) => {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
@@ -69,37 +69,19 @@ class Llamada_General extends Component {
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Nombres</Label>
-                  <Input
-                    type="text"
-                    placeholder="Nombres"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="nombres"
-                  />
+                  <Input type="text" value={this.state.nombres} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Paterno</Label>
-                  <Input
-                    type="text"
-                    placeholder="Apellido Paterno"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="paterno"
-                  />
+                  <Input type="text" value={this.state.paterno} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Materno</Label>
-                  <Input
-                    type="text"
-                    placeholder="Apellido Materno"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="materno"
-                  />
+                  <Input type="text" value={this.state.materno} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -108,13 +90,7 @@ class Llamada_General extends Component {
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Sexo</Label>
-                  <Input
-                    type="text"
-                    placeholder="Sexo"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="sexo"
-                  />
+                  <Input type="text" value={this.state.sexo} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
@@ -122,23 +98,15 @@ class Llamada_General extends Component {
                   <Label htmlFor="prospecto">Fecha de Nacimiento</Label>
                   <Input
                     type="text"
-                    placeholder="Fecha de Nacimiento"
+                    value={this.state.fecha_nacimiento}
                     readOnly
-                    onChange={this.handleChange}
-                    id="fecha_nacimiento"
                   />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Estado Civil</Label>
-                  <Input
-                    type="text"
-                    placeholder="Estado Civil"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="edo_civil"
-                  />
+                  <Input type="text" value={this.state.edo_civil} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -146,37 +114,19 @@ class Llamada_General extends Component {
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">CURP</Label>
-                  <Input
-                    type="text"
-                    placeholder="CURP"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="CURP"
-                  />
+                  <Input type="text" value={this.state.CURP} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">RFC</Label>
-                  <Input
-                    type="text"
-                    placeholder="RFC"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="RFC"
-                  />
+                  <Input type="text" value={this.state.RFC} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">NSS</Label>
-                  <Input
-                    type="text"
-                    placeholder="NSS"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="NSS"
-                  />
+                  <Input type="text" value={this.state.NSS} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -186,23 +136,15 @@ class Llamada_General extends Component {
                   <Label htmlFor="prospecto">Hijos</Label>
                   <Input
                     type="text"
-                    placeholder="Hijos"
+                    value={this.state.dep_economicos}
                     readOnly
-                    onChange={this.handleChange}
-                    id="dependientes"
                   />
                 </FormGroup>
               </Col>
               <Col className="col-sm-6">
                 <FormGroup>
                   <Label htmlFor="prospecto">Escolaridad</Label>
-                  <Input
-                    type="text"
-                    placeholder="Escolaridad"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="escolaridad"
-                  />
+                  <Input type="text" value={this.state.escolaridad} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -210,50 +152,26 @@ class Llamada_General extends Component {
               <Col className="col-sm-2">
                 <FormGroup>
                   <Label htmlFor="prospecto">Tipo Vial</Label>
-                  <Input
-                    type="text"
-                    placeholder="Tipo Vial"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="tipo_vial"
-                  />
+                  <Input type="text" value={this.state.tipo_vial} readOnly />
                 </FormGroup>
               </Col>
 
               <Col className="col-sm-6">
                 <FormGroup>
                   <Label htmlFor="prospecto">Calle</Label>
-                  <Input
-                    type="text"
-                    placeholder="Calle"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="calle"
-                  />
+                  <Input type="text" value={this.state.calle} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-1">
                 <FormGroup>
                   <Label htmlFor="prospecto">Exterior</Label>
-                  <Input
-                    type="text"
-                    placeholder="Ext."
-                    readOnly
-                    onChange={this.handleChange}
-                    id="exterior"
-                  />
+                  <Input type="text" value={this.state.exterior} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-1">
                 <FormGroup>
                   <Label htmlFor="prospecto">Interior</Label>
-                  <Input
-                    type="text"
-                    placeholder="Int."
-                    readOnly
-                    onChange={this.handleChange}
-                    id="interior"
-                  />
+                  <Input type="text" value={this.state.interior} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -262,13 +180,7 @@ class Llamada_General extends Component {
               <Col className="col-sm-12">
                 <FormGroup>
                   <Label htmlFor="prospecto">Entre Calles</Label>
-                  <Input
-                    type="text"
-                    placeholder="Entrecalles"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="entrecalles"
-                  />
+                  <Input type="text" value={this.state.entrecalles} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -277,50 +189,26 @@ class Llamada_General extends Component {
               <Col className="col-sm-2">
                 <FormGroup>
                   <Label htmlFor="prospecto">Código Postal</Label>
-                  <Input
-                    type="text"
-                    placeholder="CP"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="cp"
-                  />
+                  <Input type="text" value={this.state.cp} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-3">
                 <FormGroup>
                   <Label htmlFor="prospecto">Colonia</Label>
-                  <Input
-                    type="text"
-                    placeholder="Colonia"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="colonia"
-                  />
+                  <Input type="text" value={this.state.colonia} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-3">
                 <FormGroup>
                   <Label htmlFor="prospecto">Delegación/Municipio</Label>
-                  <Input
-                    type="text"
-                    placeholder="Municipio"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="municipio"
-                  />
+                  <Input type="text" value={this.state.municipio} readOnly />
                 </FormGroup>
               </Col>
 
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Estado</Label>
-                  <Input
-                    type="text"
-                    placeholder="Estado"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="estado"
-                  />
+                  <Input type="text" value={this.state.estado} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -329,38 +217,20 @@ class Llamada_General extends Component {
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Tel Celular</Label>
-                  <Input
-                    type="text"
-                    placeholder="5555555555"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="tel_1"
-                  />
+                  <Input type="text" value={this.state.tel_1} readOnly />
                 </FormGroup>
               </Col>
 
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Tel Casa</Label>
-                  <Input
-                    type="text"
-                    placeholder="5555555555"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="tel_2"
-                  />
+                  <Input type="text" value={this.state.tel_2} readOnly />
                 </FormGroup>
               </Col>
               <Col className="col-sm-4">
                 <FormGroup>
                   <Label htmlFor="prospecto">Email</Label>
-                  <Input
-                    type="text"
-                    placeholder="Email"
-                    readOnly
-                    onChange={this.handleChange}
-                    id="email"
-                  />
+                  <Input type="text" value={this.state.materno} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -370,13 +240,7 @@ class Llamada_General extends Component {
                   <Label htmlFor="prospecto">
                     Hobbies/Profesiones Secundarias
                   </Label>
-                  <Input
-                    type="text"
-                    placeholder=""
-                    readOnly
-                    onChange={this.handleChange}
-                    id="hobbies"
-                  />
+                  <Input type="text" value={this.state.hobbies} readOnly />
                 </FormGroup>
               </Col>
             </Row>
@@ -387,4 +251,7 @@ class Llamada_General extends Component {
   }
 }
 
-export default Llamada_General;
+export default connect((state) => ({
+  user: state.user,
+  ui: state.ui,
+}))(Llamada_General);

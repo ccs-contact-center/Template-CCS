@@ -4,7 +4,7 @@ import Loader from "react-loader-spinner";
 import React, { Component } from "react";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import withAuth from "../../Services/withAuth";
-import {General,Candidatos} from "../../Services/API_CCS";
+import { General, Candidatos } from "../../Services/API_CCS";
 import AuthService from "../../Services/AuthService";
 import { ReactTabulator } from "react-tabulator"; // for React 15.x, use import { React15Tabulator }
 import { getStyle } from "@coreui/coreui/dist/js/coreui-utilities";
@@ -23,7 +23,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 60
+    width: 60,
   },
   {
     title: "Fecha Reclutamiento",
@@ -31,7 +31,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 100
+    width: 100,
   },
   {
     title: "Candidato",
@@ -39,7 +39,7 @@ const columns = [
     hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 300
+    width: 300,
   },
   {
     title: "Fecha de Nacimiento",
@@ -47,7 +47,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 100
+    width: 100,
   },
   {
     title: "Edad",
@@ -55,7 +55,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 80
+    width: 80,
   },
   {
     title: "Estado Civil",
@@ -63,7 +63,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 135
+    width: 135,
   },
   {
     title: "Celular",
@@ -71,7 +71,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 130
+    width: 130,
   },
   {
     title: "Fijo",
@@ -79,7 +79,7 @@ const columns = [
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 130
+    width: 130,
   },
   {
     title: "e-mail",
@@ -87,14 +87,14 @@ const columns = [
     hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 200
-  }
+    width: 200,
+  },
 ];
 
 const options = {
   movableRows: true,
   pagination: "local",
-  paginationSize: 5
+  paginationSize: 5,
 };
 
 class EntrevistaRH extends Component {
@@ -142,22 +142,22 @@ class EntrevistaRH extends Component {
       status_entrevista: "",
       turno: "",
       motivo_rechazo: "",
-      campania: ""
+      campania: "",
     };
   }
 
   toTitleCase(str) {
-    return str.replace(/\w\S*/g, function(txt) {
+    return str.replace(/\w\S*/g, function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
   rowClick = (e, row) => {
     this.setState({
-      selectedLead: `${row.getData().id}`
+      selectedLead: `${row.getData().id}`,
     });
 
     this.Candidatos.getCandidato(`${row.getData().id}`)
-      .then(res => {
+      .then((res) => {
         var fecha = moment.utc(res[0].fecha_nacimiento).format("YYYY-MM-DD");
         this.setState({
           nombres: res[0].nombres,
@@ -189,10 +189,10 @@ class EntrevistaRH extends Component {
           tel_1: res[0].tel_cel,
           tel_2: res[0].tel_casa,
           email: res[0].email,
-          claveEstado: ""
+          claveEstado: "",
         });
       })
-      .then(res => {
+      .then((res) => {
         MySwal.fire({
           title: "Confirmar Candidato",
           allowOutsideClick: true,
@@ -202,19 +202,19 @@ class EntrevistaRH extends Component {
           confirmButtonColor: "#C00327",
           cancelButtonColor: "#C00327",
           confirmButtonText: "Si",
-          cancelButtonText: "No"
-        }).then(result => {
+          cancelButtonText: "No",
+        }).then((result) => {
           if (result.value === true) {
             this.setState({ status_entrevista: 5 }, () => {
               this.Candidatos.updateCandidato(this.state)
-                .then(res => {
+                .then((res) => {
                   MySwal.fire({
                     title: "¡Correcto!",
                     html: "¡Se guardó el registro correctamente!",
                     type: "success",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#C00327",
-                    allowOutsideClick: false
+                    allowOutsideClick: false,
                   });
 
                   this.updateTable();
@@ -236,19 +236,19 @@ class EntrevistaRH extends Component {
                     status_entrevista: "",
                     campania: "",
                     turno: "",
-                    motivo_rechazo: ""
+                    motivo_rechazo: "",
                   });
 
                   this.setState({ selectedLead: null });
                 })
-                .catch(err => {
+                .catch((err) => {
                   MySwal.fire({
                     title: "Error!",
                     html: "¡Ocurrió un error! <br/> (" + err + ")",
                     type: "error",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#C00327",
-                    allowOutsideClick: false
+                    allowOutsideClick: false,
                   });
 
                   this.setState({
@@ -269,7 +269,7 @@ class EntrevistaRH extends Component {
                     status_entrevista: "",
                     campania: "",
                     turno: "",
-                    motivo_rechazo: ""
+                    motivo_rechazo: "",
                   });
                   this.setState({ isSaving: false });
                 });
@@ -277,14 +277,14 @@ class EntrevistaRH extends Component {
           } else if (result.value === false) {
             this.setState({ status_entrevista: 0 }, () => {
               this.Candidatos.updateCandidato(this.state)
-                .then(res => {
+                .then((res) => {
                   MySwal.fire({
                     title: "¡Correcto!",
                     html: "¡Se guardó el registro correctamente!",
                     type: "success",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#C00327",
-                    allowOutsideClick: false
+                    allowOutsideClick: false,
                   });
                   this.updateTable();
                   this.setState({
@@ -305,19 +305,19 @@ class EntrevistaRH extends Component {
                     status_entrevista: "",
                     campania: "",
                     turno: "",
-                    motivo_rechazo: ""
+                    motivo_rechazo: "",
                   });
 
                   this.setState({ selectedLead: null });
                 })
-                .catch(err => {
+                .catch((err) => {
                   MySwal.fire({
                     title: "Error!",
                     html: "¡Ocurrió un error! <br/> (" + err + ")",
                     type: "error",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#C00327",
-                    allowOutsideClick: false
+                    allowOutsideClick: false,
                   });
 
                   this.setState({
@@ -338,24 +338,24 @@ class EntrevistaRH extends Component {
                     status_entrevista: "",
                     campania: "",
                     turno: "",
-                    motivo_rechazo: ""
+                    motivo_rechazo: "",
                   });
                   this.setState({ isSaving: false });
                 });
             });
           } else {
-            console.log('Click outside')
+            console.log("Click outside");
           }
         });
       });
   };
 
   updateTable() {
-    this.Candidatos.getCandidatosConfirmar()
-      .then(response => {
+    this.Candidatos.getCandidatos([4])
+      .then((response) => {
         return response;
       })
-      .then(json => {
+      .then((json) => {
         this.setState({ data: json });
       });
   }
@@ -372,7 +372,7 @@ class EntrevistaRH extends Component {
             height: "340px",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           <div>

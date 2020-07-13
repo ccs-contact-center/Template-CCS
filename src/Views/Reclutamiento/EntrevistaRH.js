@@ -610,7 +610,7 @@ class EntrevistaRH extends Component {
   }
 
   async updateTable() {
-    var datos = await this.Candidatos.getCandidatos();
+    var datos = await this.Candidatos.getCandidatos([0]);
     this.setState({ data: datos });
   }
 
@@ -631,7 +631,6 @@ class EntrevistaRH extends Component {
       );
     });
   }
-  
 
   requestCampanias = async () => {
     const response = await this.General.getCampanias();

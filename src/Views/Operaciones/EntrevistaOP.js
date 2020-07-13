@@ -39,28 +39,20 @@ const columns = [
     width: 60,
   },
   {
-    title: "Nombres",
-    field: "nombres",
+    title: "Candidato",
+    field: "Candidato",
     hozAlign: "left",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 200,
+    width: 300,
   },
   {
-    title: "Paterno",
-    field: "paterno",
-    hozAlign: "left",
+    title: "Fecha de Nacimiento",
+    field: "Fecha_Nacimiento",
+    hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
-    width: 200,
-  },
-  {
-    title: "Materno",
-    field: "materno",
-    hozAlign: "left",
-    headerFilter: true,
-    headerFilterPlaceholder: "Buscar",
-    width: 200,
+    width: 100,
   },
   {
     title: "Edad",
@@ -89,6 +81,14 @@ const columns = [
   {
     title: "Turno",
     field: "turno",
+    hozAlign: "center",
+    headerFilter: true,
+    headerFilterPlaceholder: "Buscar",
+    width: 130,
+  },
+  {
+    title: "Celular",
+    field: "tel_cel",
     hozAlign: "center",
     headerFilter: true,
     headerFilterPlaceholder: "Buscar",
@@ -261,7 +261,8 @@ class EntrevistaRH extends Component {
   }
 
   updateTable() {
-    this.Candidatos.getCandidatosRP()
+    //this.Candidatos.getCandidatosRP()
+    this.Candidatos.getCandidatos([3])
       .then((response) => {
         return response;
       })

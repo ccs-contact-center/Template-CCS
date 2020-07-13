@@ -4,7 +4,7 @@ import { hostURL, wsEndpoints } from "../../config";
 export default class API_CCS {
   sendMail(data) {
     return fetchCCS(
-      "https://api.ccscontactcenter.com/v2/interface/send-email",
+      "https://api.ccscontactcenter.com/v2/io/send-email",
       {
         method: "POST",
         body: JSON.stringify(data),
@@ -15,9 +15,9 @@ export default class API_CCS {
     });
   }
 
-  getNavigationMenu(roleID) {
+  getNavigationMenu(roleID, su) {
     return fetchCCS(
-      hostURL + "/v2/catalogs/menu?role=" + roleID,
+      hostURL + "/v2/catalogs/menu?role=" + roleID + "&su=" + su,
       {
         method: "GET",
       },

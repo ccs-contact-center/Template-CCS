@@ -17,6 +17,7 @@ class Inicio extends Component {
   state = {
     loading: false,
     role: "",
+    su: 0,
   };
   constructor() {
     super();
@@ -34,7 +35,7 @@ class Inicio extends Component {
 
   changeUI(role) {
     this.setState({ loading: true });
-    API.getNavigationMenu(this.state.role)
+    API.getNavigationMenu(this.state.role, 0)
       .then((res) => {
         this.props.setUI(res);
       })

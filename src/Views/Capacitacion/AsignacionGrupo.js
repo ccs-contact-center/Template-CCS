@@ -10,10 +10,7 @@ import { ReactTabulator } from "react-tabulator"; // for React 15.x, use import 
 import { getStyle } from "@coreui/coreui/dist/js/coreui-utilities";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import moment from "moment";
-import "moment/locale/es";
-import md5 from "md5";
-
+import AsignForm from "./AsignForm";
 const MySwal = withReactContent(Swal);
 const brandPrimary = getStyle("--primary");
 
@@ -107,7 +104,7 @@ class AsignacionGrupo extends Component {
     this.Auth = new AuthService();
     this.state = {
       data: [],
-      selectedLead: null,
+      selected: null,
       loading: false,
       id_user: this.Auth.getProfile().id_ccs,
       isSaving: false,
@@ -168,278 +165,20 @@ class AsignacionGrupo extends Component {
 
   rowClick = (e, row) => {
     this.setState({
-      selectedLead: `${row.getData().id}`,
+      selected: `${row.getData().id}`,
     });
 
-    var currentTime = new Date();
-
-    this.Candidatos.getCandidato(`${row.getData().id}`)
-      .then((res) => {
-        var fecha = moment.utc(res[0].fecha_nacimiento).format("YYYY-MM-DD");
-        this.setState({
-          nombres: res[0].nombres,
-          paterno: res[0].paterno,
-          materno: res[0].materno,
-          sexo: this.toTitleCase(res[0].sexo),
-          fecha_nacimiento: fecha,
-          edo_nacimiento: this.toTitleCase(res[0].edo_nacimiento),
-          edo_civil: this.toTitleCase(res[0].edo_civil),
-          CURP: res[0].CURP,
-          RFC: res[0].RFC,
-          NSS: res[0].NSS,
-          dep_economicos: res[0].dep_economicos,
-          escolaridad: this.toTitleCase(res[0].escolaridad),
-          tipo_vial: this.toTitleCase(res[0].tipo_vial),
-          calle: res[0].calle,
-          ext: res[0].ext,
-          int: res[0].int,
-          entrecalles: res[0].entrecalles,
-          cp: res[0].cp,
-          colonia: this.toTitleCase(res[0].colonia),
-          colonias: [],
-          del_mun: this.toTitleCase(res[0].del_mun),
-          municipios: [],
-          estado: this.toTitleCase(res[0].estado),
-          tipeo: res[0].tipeo,
-          ortografia: res[0].ortografia,
-          reclutador: res[0].reclutador,
-          tel_1: res[0].tel_cel,
-          tel_2: res[0].tel_casa,
-          email: res[0].email,
-          claveEstado: "",
-          su: 0,
-          empleado_sim: null,
-          id_ccs: null,
-          pass_ccs: null,
-          status: 0,
-          status_anterior: null,
-          ultimo_movimiento: moment(currentTime).format("YYYY-MM-DD hh:mm:ss"),
-          user_ultimo_movimiento: this.Auth.getProfile().id_ccs,
-          ultimo_ingreso: null,
-          role: 0,
-          adic_views: null,
-          modo: 0,
-          centro: 0,
-          campania: res[0].campania,
-          area: 0,
-          puesto: 0,
-          jefe_directo: null,
-          analista: 0,
-          instructor: 0,
-          fecha_preingreso: null,
-          fecha_capacitacion: null,
-          fecha_alta: null,
-          fecha_servicio: null,
-          entrada: null,
-          salida: null,
-          email_ccs: null,
-          fecha_baja: null,
-          motivo_baja: null,
-          comentrios_baja: null,
-          blacklisted: 0,
-          id_candidato: this.state.selectedLead,
-        });
-      })
-      .then(async (res) => {
-        var data = await this.getCampaignID(this.state.campania);
-        this.setState({ campania: data[0].id });
-      })
-      .then((res) => console.log(this.state))
-      .then((res) => {
-        MySwal.fire({
-          title: "Confirmar Candidato",
-          allowOutsideClick: true,
-          text: "¿Cumple Calidad de la Recluta?",
-          type: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#C00327",
-          cancelButtonColor: "#C00327",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.value === true) {
-            this.setState(
-              {
-                status_entrevista: 6,
-                id_ccs: this.generateUser(
-                  this.state.nombres,
-                  this.state.paterno,
-                  this.state.materno
-                ),
-                pass_ccs: md5(
-                  this.generateUser(
-                    this.state.nombres,
-                    this.state.paterno,
-                    this.state.materno
-                  )
-                ),
-              },
-              () => {
-                ////////////////////////////////
-                this.Usuarios.insertUsuario(this.state).then((res) => {
-                  if (res.id === 0) {
-                    MySwal.fire({
-                      title: "Error!",
-                      html:
-                        "¡El agente ya existe, por favor notificalo a reclutamiento!",
-                      type: "error",
-                      confirmButtonText: "OK",
-                      confirmButtonColor: "#C00327",
-                      allowOutsideClick: false,
-                    });
-                  } else {
-                    this.Candidatos.updateCandidato(this.state)
-                      .then((res) => {
-                        MySwal.fire({
-                          title: "¡Correcto!",
-                          html: "¡Se guardó el registro correctamente!",
-                          type: "success",
-                          confirmButtonText: "OK",
-                          confirmButtonColor: "#C00327",
-                          allowOutsideClick: false,
-                        });
-
-                        this.updateTable();
-                        this.setState({
-                          cp: "",
-                          estado: "",
-                          municipio: "",
-                          colonia: "",
-                          municipios: [],
-                          colonias: [],
-                          estadoNacimiento: "",
-                          CURP: "",
-                          RFC: "",
-                          nombres: "",
-                          paterno: "",
-                          materno: "",
-                          fecha_nacimiento: "",
-                          sexo: "",
-                          status_entrevista: "",
-                          campania: "",
-                          turno: "",
-                          motivo_rechazo: "",
-                        });
-
-                        this.setState({ selectedLead: null });
-                      })
-
-                      .catch((err) => {
-                        MySwal.fire({
-                          title: "Error!",
-                          html: "¡Ocurrió un error! <br/> (" + err + ")",
-                          type: "error",
-                          confirmButtonText: "OK",
-                          confirmButtonColor: "#C00327",
-                          allowOutsideClick: false,
-                        });
-
-                        this.setState({
-                          cp: "",
-                          estado: "",
-                          municipio: "",
-                          colonia: "",
-                          municipios: [],
-                          colonias: [],
-                          estadoNacimiento: "",
-                          CURP: "",
-                          RFC: "",
-                          nombres: "",
-                          paterno: "",
-                          materno: "",
-                          fecha_nacimiento: "",
-                          sexo: "",
-                          status_entrevista: "",
-                          campania: "",
-                          turno: "",
-                          motivo_rechazo: "",
-                        });
-                        this.setState({ isSaving: false });
-                      });
-                  }
-                });
-
-                /////////////////////
-              }
-            );
-          } else if (result.value === false) {
-            this.setState({ status_entrevista: 4 }, () => {
-              this.Candidatos.updateCandidato(this.state)
-                .then((res) => {
-                  MySwal.fire({
-                    title: "¡Correcto!",
-                    html: "¡Se guardó el registro correctamente!",
-                    type: "success",
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#C00327",
-                    allowOutsideClick: false,
-                  });
-                  this.updateTable();
-                  this.setState({
-                    cp: "",
-                    estado: "",
-                    municipio: "",
-                    colonia: "",
-                    municipios: [],
-                    colonias: [],
-                    estadoNacimiento: "",
-                    CURP: "",
-                    RFC: "",
-                    nombres: "",
-                    paterno: "",
-                    materno: "",
-                    fecha_nacimiento: "",
-                    sexo: "",
-                    status_entrevista: "",
-                    campania: "",
-                    turno: "",
-                    motivo_rechazo: "",
-                  });
-
-                  this.setState({ selectedLead: null });
-                })
-                .catch((err) => {
-                  MySwal.fire({
-                    title: "Error!",
-                    html: "¡Ocurrió un error! <br/> (" + err + ")",
-                    type: "error",
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#C00327",
-                    allowOutsideClick: false,
-                  });
-
-                  this.setState({
-                    cp: "",
-                    estado: "",
-                    municipio: "",
-                    colonia: "",
-                    municipios: [],
-                    colonias: [],
-                    estadoNacimiento: "",
-                    CURP: "",
-                    RFC: "",
-                    nombres: "",
-                    paterno: "",
-                    materno: "",
-                    fecha_nacimiento: "",
-                    sexo: "",
-                    status_entrevista: "",
-                    campania: "",
-                    turno: "",
-                    motivo_rechazo: "",
-                  });
-                  this.setState({ isSaving: false });
-                });
-            });
-          } else {
-            console.log("Click outside");
-          }
-        });
-      });
+    MySwal.fire({
+      type: "info",
+      html: <AsignForm />,
+      showConfirmButton: false,
+      padding: "0em",
+      allowOutsideClick: true,
+    });
   };
 
   updateTable() {
-    this.Candidatos.getCandidatosAuditoria()
+    this.Usuarios.getUsuarios([0])
       .then((response) => {
         return response;
       })

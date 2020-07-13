@@ -244,7 +244,6 @@ class EntrevistaRH extends Component {
         var data = await this.getCampaignID(this.state.campania);
         this.setState({ campania: data[0].id });
       })
-      .then((res) => console.log(this.state))
       .then((res) => {
         MySwal.fire({
           title: "Confirmar Candidato",
@@ -439,7 +438,7 @@ class EntrevistaRH extends Component {
   };
 
   updateTable() {
-    this.Candidatos.getCandidatosAuditoria()
+    this.Candidatos.getCandidatos([5])
       .then((response) => {
         return response;
       })
