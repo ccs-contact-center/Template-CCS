@@ -2,3 +2,12 @@ input[type="search"] {
   -webkit-appearance: searchfield !important;
 }
 
+input[type="checkbox" i] {
+  background: rgba(192, 3, 39, 1);
+  cursor: default;
+  appearance: checkbox;
+  box-sizing: border-box;
+  margin: 3px 3px 3px 4px;
+  padding: initial;
+  border: initial;
+}

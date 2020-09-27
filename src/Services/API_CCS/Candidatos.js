@@ -90,4 +90,5 @@ export default class Candidatos {
       return Promise.resolve(res);
     });
   }
+  
 }
