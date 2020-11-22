@@ -1,41 +1,17 @@
 import React, { Component } from "react";
-//import { Link } from 'react-router-dom';
-import {
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  //NavItem,
-  //NavLink,
-  //Badge,
-} from "reactstrap";
-import PropTypes from "prop-types";
-
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from "reactstrap";
 import {
   AppHeaderDropdown,
   AppNavbarBrand,
   AppSidebarToggler,
-  //AppAsideToggler,
 } from "@coreui/react";
 import logo from "../../Assets/img/brand/logo.png";
 import sygnet from "../../Assets/img/brand/logo.png";
 import avatar from "../../Assets/img/brand/Unknown.jpg";
 
-const propTypes = {
-  children: PropTypes.node,
-};
-
-const defaultProps = {};
-
 class DefaultHeader extends Component {
-  // eslint-disable-next-line
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+    const { onLogout, myProfile } = this.props;
 
     return (
       <React.Fragment>
@@ -47,24 +23,6 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="ml-auto" navbar>
-          {/*<NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-bell"></i>
-              <Badge pill color="danger">
-                5
-              </Badge>
-            </NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-list"></i>
-            </NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-location-pin"></i>
-            </NavLink>
-          </NavItem>*/}
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <img src={avatar} className="img-avatar" alt="admin.com" />
@@ -73,24 +31,19 @@ class DefaultHeader extends Component {
               <DropdownItem header tag="div" className="text-center">
                 <strong>Opciones</strong>
               </DropdownItem>
-              <DropdownItem onClick={(e) => this.props.myProfile(e)}>
+              <DropdownItem onClick={(e) => myProfile(e)}>
                 <i className="fa fa-user"></i> Mi Perfil
               </DropdownItem>
 
-              <DropdownItem onClick={(e) => this.props.onLogout(e)}>
+              <DropdownItem onClick={(e) => onLogout(e)}>
                 <i className="fa fa-lock"></i> Cerrar Sesión
               </DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
-        {/*<AppAsideToggler className="d-md-down-none" />
-        <AppAsideToggler className="d-lg-none" mobile />*/}
       </React.Fragment>
     );
   }
 }
-
-DefaultHeader.propTypes = propTypes;
-DefaultHeader.defaultProps = defaultProps;
 
 export default DefaultHeader;

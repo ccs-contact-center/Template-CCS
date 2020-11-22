@@ -17,13 +17,10 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ReactNotification />
-      {/*<Beforeunload onBeforeunload={() => "Abandonar Sesion"}>*/}
       <App />
-      {/*</Beforeunload>*/}
     </PersistGate>
   </Provider>,
   document.getElementById("root")
 );
 
-//Unregister para desactivar PWA
 serviceWorker.unregister();

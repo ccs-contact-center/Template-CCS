@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import * as router from "react-router-dom";
 import { Container } from "reactstrap";
@@ -13,11 +13,7 @@ import {
   AppSidebarMinimizer,
   AppSidebarNav2 as AppSidebarNav,
 } from "@coreui/react";
-// sidebar nav config
-// eslint-disable-next-line
-//import navigation from "../../_nav";
-// routes config
-//import routes from "../../routes";
+
 import { allowedRoutes } from "../../Services/routeHandler";
 import AuthService from "../../Services/AuthService";
 import { store as notiStore } from "react-notifications-component";
@@ -58,18 +54,12 @@ class DefaultLayout extends Component {
     menu: { items: [] },
   };
 
-  loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
-  );
-
-  doNothing() {}
-
-  // eslint-disable-next-line
   t = setInterval(() => {
-    Auth.loggedIn() ? this.doNothing() : this.signOut(this.e);
+    !Auth.loggedIn() && this.signOut(this.e);
   }, 60000);
 
   signOut(e) {
+    const { fetchDeleteUser, deleteUI, history } = this.props;
     var user = Auth.getProfile();
     var d = new Date();
     var login = {
@@ -82,16 +72,19 @@ class DefaultLayout extends Component {
     clearInterval(this.t);
     ws.send(JSON.stringify(login));
     Auth.logout();
-    this.props.fetchDeleteUser();
-    this.props.deleteUI();
-    this.props.history.replace("/Login");
+    fetchDeleteUser();
+    deleteUI();
+    history.replace("/Login");
   }
 
   profile(e) {
-    this.props.history.replace("/Profile");
+    const { history } = this.props;
+    history.replace("/Profile");
   }
 
   componentDidMount() {
+    const { ui, user, setUI } = this.props;
+
     ws.onmessage = (event) => {
       var data = JSON.parse(event.data);
       switch (data.type) {
@@ -134,19 +127,15 @@ class DefaultLayout extends Component {
       }
     };
 
-    var validation =
-      JSON.stringify(this.props.ui.ui) === JSON.stringify({ items: [] });
-    console.log(this.props.user.user[0]);
+    var validation = JSON.stringify(ui.ui) === JSON.stringify({ items: [] });
+
     if (validation === true) {
-      API.getNavigationMenu(
-        this.props.user.user[0].role,
-        this.props.user.user[0].su
-      )
+      API.getNavigationMenu(user.user[0].role, user.user[0].su)
         .then((res) => {
-          this.props.setUI(res);
+          setUI(res);
         })
         .then(() => {
-          this.setState({ routes: allowedRoutes(this.props.ui.ui) });
+          this.setState({ routes: allowedRoutes(ui.ui) });
         })
         .catch((ex) => {
           console.log(
@@ -154,7 +143,7 @@ class DefaultLayout extends Component {
           );
         });
     } else {
-      this.setState({ routes: allowedRoutes(this.props.ui.ui) });
+      this.setState({ routes: allowedRoutes(ui.ui) });
     }
   }
 
@@ -164,40 +153,33 @@ class DefaultLayout extends Component {
       fetchDeleteUser,
       setUI,
       deleteUI,
+      ui,
       ...rest
     } = this.props;
+    const { routes } = this.state;
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense fallback={this.loading()}>
-            <DefaultHeader
-              onLogout={(e) => this.signOut(e)}
-              myProfile={(e) => this.profile(e)}
-            />
-          </Suspense>
+          <DefaultHeader
+            onLogout={(e) => this.signOut(e)}
+            myProfile={(e) => this.profile(e)}
+          />
         </AppHeader>
         <div className="app-body">
           <AppSidebar fixed display="lg">
             <AppSidebarHeader />
             <AppSidebarForm />
-            <Suspense>
-              <AppSidebarNav
-                navConfig={/*navigation  this.state.menu*/ this.props.ui.ui}
-                {...rest}
-                router={router}
-              />
-            </Suspense>
+            <AppSidebarNav navConfig={ui.ui} {...rest} router={router} />
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            {/*<AppBreadcrumb appRoutes={this.state.routes} router={router} />*/}
             <div style={{ marginTop: "4vh" }} />
             <Container fluid>
-              <Suspense fallback={this.loading()}>
-                <Switch>
-                  {this.state.routes.map((route, idx) => {
-                    return route.component ? (
+              <Switch>
+                {routes.map(
+                  (route, idx) =>
+                    route.component && (
                       <Route
                         key={idx}
                         path={route.path}
@@ -205,23 +187,18 @@ class DefaultLayout extends Component {
                         name={route.name}
                         render={(props) => <route.component {...props} />}
                       />
-                    ) : null;
-                  })}
-                  <Redirect from="/" to="/Inicio" />
-                </Switch>
-              </Suspense>
+                    )
+                )}
+                <Redirect from="/" to="/Inicio" />
+              </Switch>
             </Container>
           </main>
           <AppAside fixed>
-            <Suspense fallback={this.loading()}>
-              <DefaultAside />
-            </Suspense>
+            <DefaultAside />
           </AppAside>
         </div>
         <AppFooter>
-          <Suspense fallback={this.loading()}>
-            <DefaultFooter />
-          </Suspense>
+          <DefaultFooter />
         </AppFooter>
       </div>
     );

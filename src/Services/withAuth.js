@@ -4,18 +4,14 @@ import { ws } from "../Services/Socket";
 
 const AuthProfile = new AuthService();
 const user = AuthProfile.getProfile();
+const Auth = new AuthService();
 
 export default function withAuth(AuthComponent) {
-  const Auth = new AuthService();
   return class AuthWrapped extends Component {
-    constructor() {
-      super();
-      this.state = {
-        user: null,
-      };
-    }
+    state = { user: null };
 
     componentDidMount() {
+      const { history } = this.props;
       if (!Auth.loggedIn()) {
         try {
           var d = new Date();
@@ -27,9 +23,9 @@ export default function withAuth(AuthComponent) {
             },
           };
           ws.send(JSON.stringify(login));
-          this.props.history.replace("/Login");
+          history.replace("/Login");
         } catch (e) {
-          this.props.history.replace("/Login");
+          history.replace("/Login");
         }
       } else {
         try {
@@ -40,14 +36,17 @@ export default function withAuth(AuthComponent) {
         } catch (err) {
           ws.send(JSON.stringify(login));
           Auth.logout();
-          this.props.history.replace("/Login");
+          history.replace("/Login");
         }
       }
     }
 
     render() {
-      if (this.state.user) {
-        return <AuthComponent history={this.props.history} {...this.props} />;
+      const { user } = this.state;
+      const { history } = this.props;
+
+      if (user) {
+        return <AuthComponent history={history} {...this.props} />;
       } else {
         return null;
       }
